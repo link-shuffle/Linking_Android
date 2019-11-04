@@ -25,6 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".WorkSpace"></activity>
+        <activity android:name=".LinkSave_Popup" android:theme="@android:style/Theme.NoTitleBar"></activity>
     </application>
 
 </manifest>
