@@ -10,12 +10,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 
 //extend Activity -> to fullscreen
 public class LinkSave_Popup extends Activity{
     Button btn_discard;
-    EditText edit_url;
+    TextView text_url;
     ClipboardManager mClipboard;
     String pasteData;
 
@@ -23,15 +23,14 @@ public class LinkSave_Popup extends Activity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        btn_discard = (Button) findViewById(R.id.btn_discard);
-        edit_url = (EditText) findViewById(R.id.edit_url);
-        mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-        pasteData = "";
-
         //타이틀 바 삭제.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_linksave_popup);
+
+        btn_discard = (Button) findViewById(R.id.btn_discard);
+        text_url = (TextView) findViewById(R.id.text_url);
+        mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        pasteData = "";
 
         //배경 제거
         WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
@@ -52,6 +51,14 @@ public class LinkSave_Popup extends Activity{
             }
         });
 
+        //클립보드 가져오기.
+        ClipData.Item item = mClipboard.getPrimaryClip().getItemAt(0);
+        pasteData = item.getText().toString();
+        if(pasteData == null){
+            text_url.setText("url : ");
+        }else {
+            text_url.setText("url : " + pasteData);
+        }
 
     }
 }

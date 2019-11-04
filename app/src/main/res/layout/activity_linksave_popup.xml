@@ -49,9 +49,9 @@
         android:orientation="vertical"
         android:layout_margin="10dp">
 
-        <EditText
-            android:hint="LINK_URL"
-            android:id="@+id/edit_url"
+        <TextView
+            android:id="@+id/text_url"
+            android:text="Link_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
