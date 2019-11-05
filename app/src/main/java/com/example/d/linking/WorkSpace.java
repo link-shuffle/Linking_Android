@@ -11,6 +11,9 @@ public class WorkSpace extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //link save popup test
-        startActivity(new Intent(this, LinkSave_Popup.class));
+        //startActivity(new Intent(this, LinkSave_Popup.class));
+
+        //Navigation drawer test
+        startActivity(new Intent(this,User_workspace.class));
     }
 }

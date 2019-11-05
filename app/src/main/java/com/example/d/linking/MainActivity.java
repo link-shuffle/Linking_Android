@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -23,7 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
-    private GoogleSignInClient mGoogleSignInClient;
+    GoogleSignInClient mGoogleSignInClient;
     private SignInButton googlelogin;
 
     @Override
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void  handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+
             updateUI(account);
         } catch (ApiException e) {
             Log.d("정보", "Sign In Result: Failed Code = " + e.getStatusCode());
@@ -84,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         }
 
     }
-
+    //account.getEmail, account.getId, account.getIdToken  -> 사용자 정보 가져오기.
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if(account != null) {
             Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
