@@ -29,6 +29,8 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
     Toolbar toolbar;
     FloatingActionButton btn_link_add;
     GoogleSignInClient mGoogleSignInClient;
+    private BackPressedForFinish backPressedForFinish;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,9 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
 
             }
         });
+
+        //back 버튼 2회 -> 앱종료
+        backPressedForFinish = new BackPressedForFinish(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -77,6 +82,8 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
 
     @Override
     public void onBackPressed() {
+        //back 버튼 2회 -> 앱종료
+        backPressedForFinish.onBackPressed();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
