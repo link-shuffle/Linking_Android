@@ -8,4 +8,12 @@
     tools:context=".User_workspace"
     tools:showIn="@layout/app_bar_user_workspace">
 
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </FrameLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

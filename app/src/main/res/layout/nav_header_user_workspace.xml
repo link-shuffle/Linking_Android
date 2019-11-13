@@ -18,18 +18,18 @@
         android:scaleType="fitEnd"
         app:srcCompat="@drawable/logo_backgroundwhite" />
 
-    <TextView
-        android:id="@+id/user_id"
+    <Button
+        android:onClick="user_setting"
         android:text="user_id"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:gravity="center|left"
         android:layout_width="match_parent"
         android:layout_weight="1.0"
+        android:background="@android:color/transparent"
         android:layout_height="30dp" />
 
     <ImageButton
-        android:id="@+id/btn_logout"
-        android:onClick="logout"
+        android:onClick="dir_add"
         android:padding="5dp"
         android:layout_width="25dp"
         android:layout_height="25dp"

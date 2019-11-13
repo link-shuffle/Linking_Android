@@ -19,16 +19,22 @@
         android:theme="@style/AppTheme"
         tools:replace="android:appComponentFactory">
         <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".WorkSpace" />
+        <activity android:name=".IntroActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WorkSpace" />
+        <activity android:name=".UserSetting" />
+        <activity android:name=".Directory_Add" />
         <activity
             android:name=".LinkSave_Popup"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".LinkSave_Popup2"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"  />
         <!--navigation-->
         <activity
             android:name=".User_workspace"

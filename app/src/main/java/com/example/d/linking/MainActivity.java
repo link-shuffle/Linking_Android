@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -26,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private static final int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSignInClient;
     private SignInButton googlelogin;
-    private BackPressedForFinish backPressedForFinish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +45,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
-
-        //back 버튼 2회 -> 앱종료
-        backPressedForFinish = new BackPressedForFinish(this);
     }
 
 
@@ -95,16 +90,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if(account != null) {
             Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
             startActivity(intent1);
+            finish();
         }else {
             Toast.makeText(getApplicationContext(), "email does not exist.", Toast.LENGTH_LONG).show();
         }
-    }
-
-    //back 버튼 2회 -> 앱종료
-    @Override
-    public void onBackPressed() {
-
-        // BackPressedForFinish 클래시의 onBackPressed() 함수를 호출한다.
-        backPressedForFinish.onBackPressed();
     }
 }

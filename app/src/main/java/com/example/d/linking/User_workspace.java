@@ -20,70 +20,67 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
-public class User_workspace extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class User_workspace extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FragmentCallback {
     Toolbar toolbar;
     FloatingActionButton btn_link_add;
-    GoogleSignInClient mGoogleSignInClient;
-    private BackPressedForFinish backPressedForFinish;
+    Fragment workspace;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_workspace);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        btn_link_add = (FloatingActionButton)findViewById(R.id.link_add);
+        //toolbar 설정
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //현재 google 로그인 가져오기.
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         //link 추가 팝업 버튼
+        btn_link_add = (FloatingActionButton) findViewById(R.id.link_add);
         btn_link_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(User_workspace.this, LinkSave_Popup2.class);
+                startActivity(intent);
             }
         });
 
-        //back 버튼 2회 -> 앱종료
-        backPressedForFinish = new BackPressedForFinish(this);
-
+        //전체화면 설정
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //네비게이션바 설정.
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //fragment 화면 설정.
+        workspace = new Fragment_workspace();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, workspace).commit();
     }
 
-    //logout
-    public void logout(View v){
-        mGoogleSignInClient.signOut()
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast logoutToast = Toast.makeText(getApplicationContext(),"Logout completed.", Toast.LENGTH_SHORT);
-                        logoutToast.show();
-                        Intent intent = new Intent(User_workspace.this, MainActivity.class);
-                        finish();
-                        startActivity(intent);
-                    }
-                });
+    //user setting 버튼
+    public void user_setting(View v){
+        Intent intent = new Intent(User_workspace.this, UserSetting.class);
+        startActivity(intent);
+    }
+
+    //directory 추가 버튼
+    public void dir_add(View v){
+        Intent intent = new Intent(User_workspace.this, Directory_Add.class);
+        startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
-        //back 버튼 2회 -> 앱종료
-        backPressedForFinish.onBackPressed();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -121,22 +118,31 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.test) {
+            onChangedFragment(1, null);
         } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //fragment 화면 전환 이벤트
+    @Override
+    public void onChangedFragment(int position, Bundle bundle) {
+        Fragment fragment = null;
+
+        switch (position) {
+            case 1:
+                fragment = workspace;
+                break;
+            default:
+                break;
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 }

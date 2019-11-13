@@ -8,14 +8,14 @@
     android:padding="10dp">
 
     <LinearLayout
-        android:id="@+id/layout1"
+        android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_discard"
+            android:id="@+id/btn_discard2"
             android:textColor="#D5D5D5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btn_save"
+            android:id="@+id/btn_save2"
             android:textColor="#0091FF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,28 +49,28 @@
         android:orientation="vertical"
         android:layout_margin="10dp">
 
-        <TextView
-            android:id="@+id/text_url"
-            android:text="Link_url"
+        <EditText
+            android:id="@+id/edit_url2"
+            android:hint="Link_url"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <Spinner
-            android:id="@+id/spin_dir"
+            android:id="@+id/spin_dir2"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
             android:hint="LINK_TAG"
-            android:id="@+id/edit_tag"
+            android:id="@+id/edit_tag2"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <EditText
             android:hint="LINK_DESCRIPTION"
-            android:id="@+id/edit_des"
+            android:id="@+id/edit_des2"
             android:layout_marginTop="10dp"
             android:height="100dp"
             android:inputType="textMultiLine|textNoSuggestions"

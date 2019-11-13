@@ -15,5 +15,6 @@ public class WorkSpace extends AppCompatActivity {
 
         //Navigation drawer test
         startActivity(new Intent(this,User_workspace.class));
+        finish();
     }
 }
