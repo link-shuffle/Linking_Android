@@ -1,4 +1,4 @@
-package com.example.d.linking;
+package com.example.d.linking.Activity;
 
 import android.app.Activity;
 import android.content.ClipData;
@@ -10,11 +10,16 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-public class LinkSave_Popup2 extends Activity {
-    Button btn_discard2;
+import com.example.d.linking.R;
+
+//extend Activity -> to fullscreen
+public class LinkSave_Popup extends Activity{
+    Button btn_discard;
+    TextView text_url;
+    ClipboardManager mClipboard;
+    String pasteData;
 
 
     @Override
@@ -22,10 +27,12 @@ public class LinkSave_Popup2 extends Activity {
         super.onCreate(savedInstanceState);
         //타이틀 바 삭제.
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_linksave_popup2);
+        setContentView(R.layout.activity_linksave_popup);
 
-        btn_discard2 = (Button) findViewById(R.id.btn_discard);
-
+        btn_discard = (Button) findViewById(R.id.btn_discard);
+        text_url = (TextView) findViewById(R.id.text_url);
+        mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        pasteData = "";
 
         //배경 제거
         WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
@@ -38,12 +45,22 @@ public class LinkSave_Popup2 extends Activity {
         getWindow().getAttributes().width = (int) (dm.widthPixels * 0.9);
         getWindow().getAttributes().height = (int) (dm.heightPixels * 0.5);
 
-        btn_discard2 = findViewById(R.id.btn_discard2);
-        btn_discard2.setOnClickListener(new View.OnClickListener() {
+        btn_discard = findViewById(R.id.btn_discard);
+        btn_discard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+
+        //클립보드 가져오기.
+        ClipData.Item item = mClipboard.getPrimaryClip().getItemAt(0);
+        pasteData = item.getText().toString();
+        if(pasteData == null){
+            finish();
+        }else {
+            text_url.setText("url : " + pasteData);
+        }
+
     }
 }

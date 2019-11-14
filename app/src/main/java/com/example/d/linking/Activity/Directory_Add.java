@@ -1,7 +1,9 @@
-package com.example.d.linking;
+package com.example.d.linking.Activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import com.example.d.linking.R;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;

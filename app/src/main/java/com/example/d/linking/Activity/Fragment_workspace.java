@@ -1,9 +1,11 @@
-package com.example.d.linking;
+package com.example.d.linking.Activity;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.d.linking.R;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

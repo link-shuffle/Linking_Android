@@ -1,4 +1,4 @@
-package com.example.d.linking;
+package com.example.d.linking.Activity;
 
 import android.os.Bundle;
 

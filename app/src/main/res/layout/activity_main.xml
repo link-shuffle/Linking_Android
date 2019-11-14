@@ -2,54 +2,90 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     android:background="@drawable/background"
-    tools:context=".MainActivity">
-    <RelativeLayout
+    tools:context=".Activity.MainActivity">
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#40000000">
+        android:background="#ffffff"
+        android:alpha="0.3"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="170dp"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:orientation="vertical">
+
 
         <ImageView
-            android:layout_margin="15dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_marginTop="70dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:background="@drawable/logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:text="Be With Linking!"
-            android:textSize="30sp"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textColor="#000000"
+            android:text="Let’s link to Linking!"
+            android:textSize="35sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:textSize="20sp"
+            android:text="Link all in one workspace \n\nSave, Share, Collaborate \nand get Organized \nwith Linking!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:textStyle="bold"/>
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/googlelogin"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Now we only provides sign in with google. \nWe’ll provide other methods soon."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:text="By clicking “Sign in with Google” above, \nyou acknowledge that you have read and \nunderstood, and agree to Linking’s \nTerms &amp;Conditions and Privacy Policy."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <Button
+                android:text="Privacy &amp; Terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00ff0000" />
+
+            <Button
+                android:text="Help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00ff0000" />
+        </LinearLayout>
+        <TextView
+            android:text="ⓒ2019 Linking, lnc."
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/googlelogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:layout_centerInParent="true"/>
-
-    <TextView
-        android:text="You can easily sign in with google account. \n If you don’t have any account in Linking,\n press Sign in with Google."
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/googlelogin"/>
-
-    </RelativeLayout>
 
 </RelativeLayout>
