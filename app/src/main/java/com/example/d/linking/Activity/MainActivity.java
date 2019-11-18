@@ -1,5 +1,9 @@
 package com.example.d.linking.Activity;
 
+import com.example.d.linking.Data.LoginResponse;
+import com.example.d.linking.Server.APIClient;
+import com.example.d.linking.Server.APIInterface;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,15 +21,21 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
     GoogleSignInClient mGoogleSignInClient;
     private SignInButton googlelogin;
+    private APIInterface service ;
+    String account;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +48,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         googlelogin = (SignInButton)findViewById(R.id.googlelogin);
+        service= APIClient.getClient().create(APIInterface.class);
 
         googlelogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +58,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             }
         });
     }
-
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -89,11 +99,37 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     //account.getEmail, account.getId, account.getIdToken  -> 사용자 정보 가져오기.
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if(account != null) {
-            Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
-            startActivity(intent1);
-            finish();
+            this.account = account.getDisplayName();
+            startLogin(account.getEmail());
+            //Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
+            //startActivity(intent1);
+            //finish();
         }else {
             Toast.makeText(getApplicationContext(), "email does not exist.", Toast.LENGTH_LONG).show();
         }
+    }
+
+    // Login api connection
+    private void startLogin(String data) {
+        service.userLogin(data).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                Log.d("받아온결과",""+new Gson().toJson(response.body()));
+                LoginResponse result = response.body();
+                if(result.getCode() == 1) {
+                    Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
+                }else if(result.getCode() == 0){
+                    Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
+                }
+                Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
+                startActivity(intent1);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "로그인 error", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

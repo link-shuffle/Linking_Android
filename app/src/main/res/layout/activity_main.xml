@@ -73,13 +73,13 @@
                 android:text="Privacy &amp; Terms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#00ff0000" />
+                android:background="@color/transparent" />
 
             <Button
                 android:text="Help"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#00ff0000" />
+                android:background="@color/transparent" />
         </LinearLayout>
         <TextView
             android:text="ⓒ2019 Linking, lnc."
