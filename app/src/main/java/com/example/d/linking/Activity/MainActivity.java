@@ -1,5 +1,6 @@
 package com.example.d.linking.Activity;
 
+import com.example.d.linking.Data.LoginData;
 import com.example.d.linking.Data.LoginResponse;
 import com.example.d.linking.Server.APIClient;
 import com.example.d.linking.Server.APIInterface;
@@ -100,7 +101,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if(account != null) {
             this.account = account.getDisplayName();
-            startLogin(account.getEmail());
+            startLogin(new LoginData(account.getEmail(),account.getDisplayName()));
             //Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
             //startActivity(intent1);
             //finish();
@@ -110,11 +111,11 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     }
 
     // Login api connection
-    private void startLogin(String data) {
+    private void startLogin(LoginData data) {
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                Log.d("받아온결과",""+new Gson().toJson(response.body()));
+                //Log.d("받아온결과",""+new Gson().toJson(response.body()));
                 LoginResponse result = response.body();
                 if(result.getCode() == 1) {
                     Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
@@ -122,6 +123,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                     Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
                 }
                 Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
+                intent1.putExtra("display_name", "account");
                 startActivity(intent1);
                 finish();
             }

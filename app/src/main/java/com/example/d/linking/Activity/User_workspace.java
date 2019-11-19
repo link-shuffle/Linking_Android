@@ -3,12 +3,19 @@ package com.example.d.linking.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.d.linking.Data.DirectoryResponse;
+import com.example.d.linking.Data.LoginData;
+import com.example.d.linking.Data.LoginResponse;
 import com.example.d.linking.R;
+import com.example.d.linking.Server.APIClient;
+import com.example.d.linking.Server.APIInterface;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -16,19 +23,31 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class User_workspace extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FragmentCallback {
     Toolbar toolbar;
     FloatingActionButton btn_link_add;
     Fragment workspace;
+    private APIInterface service ;
+    String display_name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_workspace);
+        Intent intent = getIntent();
+        display_name = intent.getExtras().getString("display_name");
+
+        //server connection
+        service= APIClient.getClient().create(APIInterface.class);
+        directoryList(display_name);
 
         //toolbar 설정
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -137,5 +156,20 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
                 break;
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+    }
+
+    //navigation item dynamic
+    private void directoryList(String data) {
+        Call<DirectoryResponse> ditlist = service.dirList(data);
+        ditlist.enqueue(new Callback<DirectoryResponse>() {
+            @Override
+            public void onResponse(Call<DirectoryResponse> call, Response<DirectoryResponse> response) {
+                Log.d("통신성공"," "+new Gson().toJson(response.body()));
+            }
+            @Override
+            public void onFailure(Call<DirectoryResponse> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 }
