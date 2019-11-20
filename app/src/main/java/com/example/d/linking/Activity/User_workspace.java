@@ -31,6 +31,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class User_workspace extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,FragmentCallback {
     Toolbar toolbar;
     FloatingActionButton btn_link_add;
@@ -43,11 +45,10 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_workspace);
         Intent intent = getIntent();
-        display_name = intent.getExtras().getString("display_name");
+        display_name = intent.getStringExtra("display_name");
 
         //server connection
         service= APIClient.getClient().create(APIInterface.class);
-        directoryList(display_name);
 
         //toolbar 설정
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,6 +78,9 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
         //fragment 화면 설정.
         workspace = new Fragment_workspace();
         getSupportFragmentManager().beginTransaction().add(R.id.container, workspace).commit();
+
+        //디렉토리 list 호출
+        directoryList(display_name);
     }
 
     //user setting 버튼
@@ -159,17 +163,19 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
     }
 
     //navigation item dynamic
-    private void directoryList(String data) {
-        Call<DirectoryResponse> ditlist = service.dirList(data);
-        ditlist.enqueue(new Callback<DirectoryResponse>() {
+    private void directoryList(String desplay) {
+        Call<ArrayList<DirectoryResponse>> dirlist = service.dirList(desplay);
+        dirlist.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
             @Override
-            public void onResponse(Call<DirectoryResponse> call, Response<DirectoryResponse> response) {
+            public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
             }
             @Override
-            public void onFailure(Call<DirectoryResponse> call, Throwable t) {
+            public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
+                Log.d("디렉토리 리스트 통신 실패","");
                 t.printStackTrace();
             }
         });
     }
+
 }

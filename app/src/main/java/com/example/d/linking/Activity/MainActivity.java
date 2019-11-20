@@ -102,9 +102,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         if(account != null) {
             this.account = account.getDisplayName();
             startLogin(new LoginData(account.getEmail(),account.getDisplayName()));
-            //Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
-            //startActivity(intent1);
-            //finish();
         }else {
             Toast.makeText(getApplicationContext(), "email does not exist.", Toast.LENGTH_LONG).show();
         }
@@ -115,15 +112,13 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         service.userLogin(data).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                //Log.d("받아온결과",""+new Gson().toJson(response.body()));
+                Log.d("받아온결과",""+new Gson().toJson(response.body()));
                 LoginResponse result = response.body();
-                if(result.getCode() == 1) {
-                    Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
-                }else if(result.getCode() == 0){
+                if(result.getCode() == 1 || result.getCode() == 0) {
                     Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent1 = new Intent(getApplicationContext(), WorkSpace.class);
-                intent1.putExtra("display_name", "account");
+                Intent intent1 = new Intent(getApplicationContext(), User_workspace.class);
+                intent1.putExtra("display_name", account);
                 startActivity(intent1);
                 finish();
             }
