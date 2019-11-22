@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/liner_dirlist"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/arrow_right"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:src="@drawable/arrow_right"
+        android:layout_width="wrap_content"
+        android:background="@color/transparent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/dir_item"
+        android:layout_toRightOf="@id/arrow_right"
+        android:background="@color/transparent"
+        android:gravity="left|center_vertical"
+        android:text="item1"
+        android:textColor="#2c3130"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:overScrollMode="never"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/nav_recycleSub1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+</LinearLayout>

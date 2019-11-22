@@ -19,6 +19,7 @@
         app:srcCompat="@drawable/logo_backgroundwhite" />
 
     <Button
+        android:id="@+id/user_id"
         android:onClick="user_setting"
         android:text="user_id"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"

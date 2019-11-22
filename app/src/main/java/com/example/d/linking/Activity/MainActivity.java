@@ -5,9 +5,12 @@ import com.example.d.linking.Data.LoginResponse;
 import com.example.d.linking.Server.APIClient;
 import com.example.d.linking.Server.APIInterface;
 
+
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -33,6 +36,8 @@ import retrofit2.Response;
 public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_SIGN_IN = 9001;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     GoogleSignInClient mGoogleSignInClient;
     private SignInButton googlelogin;
     private APIInterface service ;
@@ -89,7 +94,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     private void  handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
             updateUI(account);
         } catch (ApiException e) {
             Log.d("정보", "Sign In Result: Failed Code = " + e.getStatusCode());
@@ -116,9 +120,13 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                 LoginResponse result = response.body();
                 if(result.getCode() == 1 || result.getCode() == 0) {
                     Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
+                    //SharedPreferences user 정보 저장
+                    preferences = getSharedPreferences("user", MODE_PRIVATE);
+                    editor = preferences.edit();
+                    editor.putString("display_name",account);
+                    editor.commit();
                 }
-                Intent intent1 = new Intent(getApplicationContext(), User_workspace.class);
-                intent1.putExtra("display_name", account);
+                Intent intent1 = new Intent(getApplicationContext(), Workspace.class);
                 startActivity(intent1);
                 finish();
             }

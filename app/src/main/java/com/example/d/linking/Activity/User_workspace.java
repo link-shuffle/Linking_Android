@@ -1,11 +1,14 @@
 package com.example.d.linking.Activity;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.d.linking.Adapter.DirListAdapter;
+import com.example.d.linking.Adapter.DirListAdapter2;
 import com.example.d.linking.Data.DirectoryResponse;
-import com.example.d.linking.Data.LoginData;
-import com.example.d.linking.Data.LoginResponse;
 import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
 import com.example.d.linking.Server.APIInterface;
@@ -23,13 +26,16 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -39,6 +45,12 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
     Fragment workspace;
     private APIInterface service ;
     String display_name;
+    //클립보드
+    ClipboardManager mClipboard;
+    String pasteData;
+    //디렉토리 list recycler
+    RecyclerView mRecyclerView, mRecyclerView2;
+    RecyclerView.LayoutManager mLayoutManager, mLayoutManager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +59,32 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
         Intent intent = getIntent();
         display_name = intent.getStringExtra("display_name");
 
+        //디렉토리 list recycler
+        mRecyclerView = findViewById(R.id.nav_recyclerPrivate);
+        mRecyclerView2 = findViewById(R.id.nav_recycleSub);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView2.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager2 = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView2.setLayoutManager(mLayoutManager2);
+
         //server connection
         service= APIClient.getClient().create(APIInterface.class);
 
         //toolbar 설정
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //클립보드 가져오기.
+        mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        pasteData = "";
+        ClipData.Item item = mClipboard.getPrimaryClip().getItemAt(0);
+        pasteData = item.getText().toString();
+        if(pasteData != null) {
+            Intent intent1 = new Intent(User_workspace.this, LinkSave_Popup.class);
+            startActivity(intent1);
+        }
 
         //link 추가 팝업 버튼
         btn_link_add = (FloatingActionButton) findViewById(R.id.link_add);
@@ -141,7 +173,6 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
         } else if (id == R.id.nav_share) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -169,6 +200,8 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
             @Override
             public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
+                DirListAdapter dir_Adapter = new DirListAdapter(response.body());
+                mRecyclerView.setAdapter(dir_Adapter);
             }
             @Override
             public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
@@ -176,6 +209,33 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
                 t.printStackTrace();
             }
         });
+    }
+
+    //navigation item dynamic2
+    public void directoryList2(String name, int number) {
+        if(name != null) {
+            //Call<ArrayList<DirectoryResponse>> dirlist;
+            try {
+                //dirlist = service.dirListSub(name, number);
+                service.dirListSub(name,number).enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+                    @Override
+                    public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
+                        Log.d("통신성공", " " + new Gson().toJson(response.body()));
+                        DirListAdapter2 dir_Adapter = new DirListAdapter2(response.body());
+                        mRecyclerView2.setAdapter(dir_Adapter);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
+                        Log.d("디렉토리 리스트 통신 실패", "");
+                        t.printStackTrace();
+                    }
+                });
+            }catch (NullPointerException e){
+                Log.d("디스플레이네임",""+name);
+            }
+        }
+
     }
 
 }
