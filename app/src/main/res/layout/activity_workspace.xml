@@ -18,10 +18,18 @@
         android:fitsSystemWindows="true"
         tools:openDrawer="start">
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar"/>
+
         <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             layout="@layout/activity_main_content" />
+        </LinearLayout>
 
         <!-- 네비게이션 메뉴 화면-->
         <com.google.android.material.navigation.NavigationView

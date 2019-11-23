@@ -30,7 +30,7 @@ public interface APIInterface {
     @POST("link/{dir_id}/saved")
     Call<LinkAddResponse> linkadd(@Path("dir_id") int dir_id, @Body LinkAddData data);
 
-    @POST("link/{dir_id}")
+    @POST("link/{dir_id}/read")
     Call<ArrayList<LinkListResponse>> linklist(@Path("dir_id") int dir_id);
 
     //@FormUrlEncoded

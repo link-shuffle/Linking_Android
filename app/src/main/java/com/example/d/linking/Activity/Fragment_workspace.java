@@ -3,6 +3,7 @@ package com.example.d.linking.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,13 +23,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class Fragment_workspace extends Fragment {
+public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private SharedPreferences preferences;
     int dir_id;
     String dir_name;
@@ -38,6 +40,8 @@ public class Fragment_workspace extends Fragment {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Nullable
     @Override
@@ -60,6 +64,11 @@ public class Fragment_workspace extends Fragment {
 
         //server connection
         service= APIClient.getClient().create(APIInterface.class);
+
+        //refresh
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.yellow, R.color.red, R.color.black, R.color.blue);
 
         LinkList(dir_id);
         return view;
@@ -89,4 +98,17 @@ public class Fragment_workspace extends Fragment {
         });
     }
 
+    @Override
+    public void onRefresh() {
+        mSwipeRefreshLayout.setRefreshing(true);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //해당 어댑터를 서버와 통신한 값이 나오면 됨
+                LinkList(dir_id);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        },3000);
+    }
 }

@@ -59,15 +59,6 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
         Intent intent = getIntent();
         display_name = intent.getStringExtra("display_name");
 
-        //디렉토리 list recycler
-        mRecyclerView = findViewById(R.id.nav_recyclerPrivate);
-        mRecyclerView2 = findViewById(R.id.nav_recycleSub);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView2.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager2 = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView2.setLayoutManager(mLayoutManager2);
 
         //server connection
         service= APIClient.getClient().create(APIInterface.class);

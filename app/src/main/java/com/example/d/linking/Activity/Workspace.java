@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.d.linking.Adapter.DirListAdapter;
 import com.example.d.linking.Data.DirectoryResponse;
@@ -98,6 +99,7 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         return super.onOptionsItemSelected(item);
     }
 
+    //onCreate 초기 설정.
     private void initLayout() {
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -115,6 +117,16 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         // header에 있는 리소스 가져오기
         user_id = (Button) header.findViewById(R.id.user_id);
         user_id.setText(display_name);
+
+        //link 추가 팝업 버튼
+        btn_link_add = (FloatingActionButton) findViewById(R.id.link_add);
+        btn_link_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Workspace.this, LinkSave_Popup2.class);
+                startActivity(intent);
+            }
+        });
 
         //디렉토리 list recycler
         mRecyclerView = findViewById(R.id.nav_recyclerPrivate);
@@ -141,6 +153,12 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
     //directory 추가 버튼
     public void dir_add(View v){
         Intent intent = new Intent(Workspace.this, Directory_Add.class);
+        startActivity(intent);
+    }
+
+    //search 버튼
+    public void search(View v){
+        Intent intent = new Intent(Workspace.this, Search.class);
         startActivity(intent);
     }
 

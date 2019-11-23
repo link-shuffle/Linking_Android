@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_marginRight="20dp"
-    android:layout_marginLeft="20dp"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
         android:text="directory_name"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:id="@+id/directory_name"
         android:textStyle="bold"
         android:textSize="20dp"
@@ -17,6 +17,11 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
     <ScrollView
         android:orientation="vertical"
@@ -28,12 +33,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <androidx.recyclerview.widget.RecyclerView
+
+
+        <androidx.recyclerview.widget.RecyclerView
         android:overScrollMode="never"
         android:id="@+id/recylcer_linkcard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     </LinearLayout>
     </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
