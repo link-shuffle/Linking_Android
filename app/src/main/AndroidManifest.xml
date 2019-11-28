@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_new_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
         tools:replace="android:appComponentFactory">
         <activity android:name=".Activity.MainActivity" >
             <intent-filter>
@@ -26,12 +27,19 @@
         </activity>
         <activity android:name=".Activity.UserSetting" />
         <activity android:name=".Activity.Directory_Add" />
+        <activity android:name=".Activity.Directory_Add2" />
         <activity
             android:name=".Activity.LinkSave_Popup"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".Activity.LinkSave_Popup2"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"  />
+        <activity
+            android:name=".Activity.DirSave_Popup"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".Activity.Directory_Rename"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!--navigation-->
         <activity
             android:name=".Activity.User_workspace"

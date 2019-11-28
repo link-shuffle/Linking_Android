@@ -1,13 +1,22 @@
 package com.example.d.linking.Activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.d.linking.Adapter.LinkAdapter;
@@ -19,8 +28,12 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -40,8 +53,13 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
-
     SwipeRefreshLayout mSwipeRefreshLayout;
+    private Paint mClearPaint;
+    private ColorDrawable mBackground;
+    private int backgroundColor;
+    private Drawable deleteDrawable;
+    private int intrinsicWidth;
+    private int intrinsicHeight;
 
     @Nullable
     @Override
@@ -51,9 +69,10 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
 
         //현재 directory 정보 가져오기
         preferences = this.getActivity().getSharedPreferences("user",MODE_PRIVATE);
-        dir_id = preferences.getInt("dir_id",200);
+        dir_id = preferences.getInt("dir_id",200); ///defvalue 수정해야돼
         dir_name = preferences.getString("dir_name","javascript");
 
+        //현재 접속 user 이름출력 변경.
         text_dirID = (TextView) view.findViewById(R.id.directory_name);
         text_dirID.setText(dir_name);
 
@@ -70,7 +89,67 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.yellow, R.color.red, R.color.black, R.color.blue);
 
+        //link list 불러오기.
         LinkList(dir_id);
+
+        //swipe background custom
+        mBackground = new ColorDrawable();
+        backgroundColor = Color.parseColor("#d74444");
+        mClearPaint = new Paint();
+        mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        deleteDrawable = ContextCompat.getDrawable(mContext, R.drawable.delete);
+        intrinsicWidth = deleteDrawable.getIntrinsicWidth();
+        intrinsicHeight = deleteDrawable.getIntrinsicHeight();
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int swipedPosition = viewHolder.getAdapterPosition();
+                LinkAdapter adapter = (LinkAdapter) mRecyclerView.getAdapter();
+                adapter.remove(swipedPosition);
+
+            }
+
+            @Override
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+                View itemView = viewHolder.itemView;
+                int itemHeight = itemView.getHeight();
+
+                boolean isCancelled = dX == 0 && !isCurrentlyActive;
+
+                if (isCancelled) {
+                    clearCanvas(c, itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                    return;
+                }
+
+                mBackground.setColor(backgroundColor);
+                mBackground.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                mBackground.draw(c);
+
+                int deleteIconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
+                int deleteIconMargin = (itemHeight - intrinsicHeight) / 2;
+                int deleteIconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidth;
+                int deleteIconRight = itemView.getRight() - deleteIconMargin;
+                int deleteIconBottom = deleteIconTop + intrinsicHeight;
+
+
+                deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
+                deleteDrawable.draw(c);
+
+            }
+        };
+
+        //swipe delete
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
         return view;
     }
 
@@ -110,5 +189,15 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         },3000);
+    }
+
+    private void clearCanvas(Canvas c, Float left, Float top, Float right, Float bottom) {
+        c.drawRect(left, top, right, bottom, mClearPaint);
+
+    }
+
+    public void reRead(){
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this).attach(this).commit();
     }
 }

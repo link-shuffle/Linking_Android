@@ -55,12 +55,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <Spinner
-            android:id="@+id/spin_dir2"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <EditText
             android:hint="LINK_TAG"
             android:id="@+id/edit_tag2"

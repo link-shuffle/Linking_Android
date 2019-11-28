@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Directory_Add extends AppCompatActivity {
+public class Directory_Add2 extends AppCompatActivity {
     private APIInterface service;
     private SharedPreferences preferences;
     FloatingActionButton btn_dir_add;
@@ -36,6 +36,7 @@ public class Directory_Add extends AppCompatActivity {
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     String display_name;
+    int dir_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class Directory_Add extends AppCompatActivity {
         setContentView(R.layout.activity_directory_add);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Intent intent = getIntent();
+        dir_id = intent.getIntExtra("dirID",0);
 
         //server connection
         service= APIClient.getClient().create(APIInterface.class);
@@ -57,20 +60,19 @@ public class Directory_Add extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        DirList(display_name);
+        DirList();
 
-        //디렉토리 추가 팝업 버튼
+        //link 추가 팝업 버튼
         btn_dir_add = (FloatingActionButton) findViewById(R.id.dir_add);
         btn_dir_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Directory_Add.this, DirSave_Popup.class);
-                intent.putExtra("dirID",0);
+                Intent intent = new Intent(Directory_Add2.this, DirSave_Popup.class);
+                intent.putExtra("dirID",dir_id);
                 startActivity(intent);
             }
         });
     }
-
     //toolbar 뒤로가기 버튼
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -79,12 +81,16 @@ public class Directory_Add extends AppCompatActivity {
                 finish();
                 return true;
             }
+            case R.id.btn_diradd:{
+                Intent intent = new Intent(Directory_Add2.this, DirSave_Popup.class);
+                startActivity(intent);
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public void DirList(String display_name){
-        Call<ArrayList<DirectoryResponse>> dirlist = service.dirList(display_name);
+    public void DirList(){
+        Call<ArrayList<DirectoryResponse>> dirlist = service.dirListSub(display_name, dir_id);
         dirlist.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {

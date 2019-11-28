@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.d.linking.Adapter.DirListAdapter;
-import com.example.d.linking.Adapter.DirListAdapter2;
 import com.example.d.linking.Data.DirectoryResponse;
 import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
@@ -26,7 +25,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,8 +32,6 @@ import retrofit2.Response;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -212,7 +208,7 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
                     @Override
                     public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                         Log.d("통신성공", " " + new Gson().toJson(response.body()));
-                        DirListAdapter2 dir_Adapter = new DirListAdapter2(response.body());
+                        DirListAdapter dir_Adapter = new DirListAdapter(response.body());
                         mRecyclerView2.setAdapter(dir_Adapter);
                     }
 

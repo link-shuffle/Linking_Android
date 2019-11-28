@@ -30,6 +30,6 @@
         <item name="android:shadowColor">#000012</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">5.0</item>
+        <item name="android:shadowRadius">4.0</item>
     </style>
 </resources>

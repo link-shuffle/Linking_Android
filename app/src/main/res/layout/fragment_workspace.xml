@@ -14,7 +14,6 @@
         android:textSize="20dp"
         style="@style/TextShadow"
         android:textColor="#2c3130"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -28,20 +27,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
 
         <androidx.recyclerview.widget.RecyclerView
         android:overScrollMode="never"
         android:id="@+id/recylcer_linkcard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
 
-    </LinearLayout>
+    </RelativeLayout>
     </ScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

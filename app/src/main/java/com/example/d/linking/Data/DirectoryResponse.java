@@ -4,7 +4,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class DirectoryResponse {
 
+    @SerializedName("dir_id")
     private int dir_id;
+
+    @SerializedName("name")
     private String name;
 
         public int getDir_id() {

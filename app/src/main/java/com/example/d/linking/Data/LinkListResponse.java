@@ -8,6 +8,9 @@ public class LinkListResponse {
     @SerializedName("link")
     private String link;
 
+    @SerializedName("link_id")
+    private int link_id;
+
     @SerializedName("tag")
     private String link_tag;
 
@@ -25,6 +28,9 @@ public class LinkListResponse {
 
     @SerializedName("read_status")
     private int  read_status;
+
+    @SerializedName("favorite_status")
+    private int  favorite_status;
 
     @SerializedName("created_time")
     private Date created_time;
@@ -59,6 +65,10 @@ public class LinkListResponse {
     public int getRead_status() {
         return read_status;
     }
+
+    public int getFavorite_status() {return  favorite_status;}
+
+    public int getLink_id(){return link_id;}
 
     public Date getCreate_time() {
         return created_time;

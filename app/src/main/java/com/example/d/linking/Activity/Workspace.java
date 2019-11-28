@@ -28,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
@@ -57,14 +58,14 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         preferences = getSharedPreferences("user", MODE_PRIVATE);
         display_name = preferences.getString("display_name","");
 
+        //fragment 화면 설정.
+        workspace = new Fragment_workspace();
+        getSupportFragmentManager().beginTransaction().add(R.id.container, workspace).commit();
+
         //server connection
         service= APIClient.getClient().create(APIInterface.class);
 
         initLayout();
-
-        //fragment 화면 설정.
-        workspace = new Fragment_workspace();
-        getSupportFragmentManager().beginTransaction().add(R.id.container, workspace).commit();
 
         directoryList(display_name);
     }
@@ -185,4 +186,5 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
             }
         });
     }
+
 }

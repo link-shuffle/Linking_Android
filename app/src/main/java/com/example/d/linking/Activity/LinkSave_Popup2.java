@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,15 +19,20 @@ import android.widget.Toast;
 import com.example.d.linking.Data.LinkAddData;
 import com.example.d.linking.Data.LinkAddResponse;
 import com.example.d.linking.R;
+import com.example.d.linking.Server.APIClient;
 import com.example.d.linking.Server.APIInterface;
+import com.google.gson.Gson;
 
+import androidx.fragment.app.Fragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LinkSave_Popup2 extends Activity {
+    private SharedPreferences preferences;
     Button btn_discard2, btn_save2;
     EditText tag2, desc2, edit_url2;
+    int dir_id;
     private APIInterface service ;
 
 
@@ -36,11 +43,16 @@ public class LinkSave_Popup2 extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_linksave_popup2);
 
-        btn_discard2 = (Button) findViewById(R.id.btn_discard);
+        preferences = getSharedPreferences("user",MODE_PRIVATE);
+        dir_id = preferences.getInt("dir_id",200); //devalue 수정해야돼.
+
+        btn_discard2 = (Button) findViewById(R.id.btn_discard2);
         btn_save2 = (Button) findViewById(R.id.btn_save2);
-        tag2 = (EditText) findViewById(R.id.edit_tag);
-        desc2 = (EditText) findViewById(R.id.edit_des);
+        tag2 = (EditText) findViewById(R.id.edit_tag2);
+        desc2 = (EditText) findViewById(R.id.edit_des2);
         edit_url2 = (EditText) findViewById(R.id.edit_url2);
+
+        service= APIClient.getClient().create(APIInterface.class);
 
         //배경 제거
         WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
@@ -64,10 +76,13 @@ public class LinkSave_Popup2 extends Activity {
         btn_save2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(edit_url2.getText().toString() != null){
-                    linkAdd(new LinkAddData("www.naver.com", tag2.getText().toString(), desc2.getText().toString()));
-                }else{
+                if(edit_url2.getText().toString().length() == 0){
                     Toast.makeText(LinkSave_Popup2.this, "URL을 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    linkAdd(new LinkAddData(edit_url2.getText().toString(), tag2.getText().toString(), desc2.getText().toString()));
+                    //Fragment_workspace refresh = new Fragment_workspace();
+                    //refresh.onRefresh();
+                    finish();
                 }
             }
         });
@@ -75,11 +90,11 @@ public class LinkSave_Popup2 extends Activity {
 
     // linkadd
     private void linkAdd(LinkAddData data) {
-        service.linkadd(200,data).enqueue(new Callback<LinkAddResponse>() {
+        service.linkadd(dir_id,data).enqueue(new Callback<LinkAddResponse>() {
             @Override
             public void onResponse(Call<LinkAddResponse> call, Response<LinkAddResponse> response) {
                     Toast.makeText(LinkSave_Popup2.this, "Save Success", Toast.LENGTH_SHORT).show();
-                    finish();
+                    Log.d("링크 저장 결과",""+new Gson().toJson(response.code()));
             }
             @Override
             public void onFailure(Call<LinkAddResponse> call, Throwable t) {
