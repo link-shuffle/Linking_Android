@@ -37,6 +37,7 @@ import retrofit2.Response;
 
 public class Workspace extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     Fragment workspace;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -46,8 +47,8 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
     String display_name;
     Button user_id;
     //디렉토리 list recycler
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView mRecyclerView, mRecyclerView2, mRecyclerView3;
+    RecyclerView.LayoutManager mLayoutManager, mLayoutManager2, mLayoutManager3;
     private APIInterface service;
 
     @Override
@@ -134,6 +135,14 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView2 = findViewById(R.id.nav_recyclerPublic);
+        mRecyclerView2.setHasFixedSize(true);
+        mLayoutManager2 = new LinearLayoutManager(this);
+        mRecyclerView2.setLayoutManager(mLayoutManager2);
+        mRecyclerView3 = findViewById(R.id.nav_recyclerShared);
+        mRecyclerView3.setHasFixedSize(true);
+        mLayoutManager3 = new LinearLayoutManager(this);
+        mRecyclerView3.setLayoutManager(mLayoutManager3);
     }
 
     @Override
@@ -163,6 +172,23 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         startActivity(intent);
     }
 
+    //follow 버튼
+    public void follow(View v){
+        Intent intent = new Intent(Workspace.this, Follow.class);
+        startActivity(intent);
+    }
+
+    //favorite 버튼
+    public void btn_favorite(View v){
+        editor = preferences.edit();
+        editor.putInt("dir_id", 0);
+        editor.putString("dir_name", "favorite");
+        editor.commit();
+        Intent intent = new Intent(Workspace.this,Workspace.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+
     //navigation item
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -171,8 +197,11 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
 
     //navigation item dynamic
     private void directoryList(String display_name) {
-        Call<ArrayList<DirectoryResponse>> dirlist = service.dirList(display_name);
-        dirlist.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+        Call<ArrayList<DirectoryResponse>> dirlist0 = service.dirList0(display_name);
+        Call<ArrayList<DirectoryResponse>> dirlist1 = service.dirList1(display_name);
+        Call<ArrayList<DirectoryResponse>> dirlist2 = service.dirList2(display_name);
+
+        dirlist0.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
@@ -185,6 +214,33 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
                 t.printStackTrace();
             }
         });
-    }
 
+        dirlist1.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
+                Log.d("통신성공"," "+new Gson().toJson(response.body()));
+                DirListAdapter dir_Adapter = new DirListAdapter(response.body());
+                mRecyclerView2.setAdapter(dir_Adapter);
+            }
+            @Override
+            public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
+                Log.d("디렉토리 리스트 통신 실패","");
+                t.printStackTrace();
+            }
+        });
+
+        dirlist2.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
+                Log.d("통신성공"," "+new Gson().toJson(response.body()));
+                DirListAdapter dir_Adapter = new DirListAdapter(response.body());
+                mRecyclerView3.setAdapter(dir_Adapter);
+            }
+            @Override
+            public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
+                Log.d("디렉토리 리스트 통신 실패","");
+                t.printStackTrace();
+            }
+        });
+    }
 }

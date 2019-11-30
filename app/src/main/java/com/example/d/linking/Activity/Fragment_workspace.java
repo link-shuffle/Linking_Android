@@ -47,6 +47,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     private SharedPreferences preferences;
     int dir_id;
     String dir_name;
+    String display_name;
     private Context mContext;
     TextView text_dirID;
     //디렉토리 list recycler
@@ -71,6 +72,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         preferences = this.getActivity().getSharedPreferences("user",MODE_PRIVATE);
         dir_id = preferences.getInt("dir_id",200); ///defvalue 수정해야돼
         dir_name = preferences.getString("dir_name","javascript");
+        display_name = preferences.getString("display_name","");
 
         //현재 접속 user 이름출력 변경.
         text_dirID = (TextView) view.findViewById(R.id.directory_name);
@@ -90,7 +92,11 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout.setColorSchemeResources(R.color.yellow, R.color.red, R.color.black, R.color.blue);
 
         //link list 불러오기.
-        LinkList(dir_id);
+        if(dir_id != 0){
+            LinkList(dir_id);
+        }else{
+            favorite(display_name);
+        }
 
         //swipe background custom
         mBackground = new ColorDrawable();
@@ -177,6 +183,24 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         });
     }
 
+    //favorite link list 불러오기.
+    private void favorite(String display_name){
+        Call<ArrayList<LinkListResponse>> linkfavorite = service.linkfavorite(display_name);
+        linkfavorite.enqueue(new Callback<ArrayList<LinkListResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<LinkListResponse>> call, Response<ArrayList<LinkListResponse>> response) {
+                Log.d("통신성공"," "+new Gson().toJson(response.body()));
+                LinkAdapter dir_Adapter = new LinkAdapter(response.body());
+                mRecyclerView.setAdapter(dir_Adapter);
+            }
+            @Override
+            public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {
+                Log.d("디렉토리 리스트 통신 실패","");
+                t.printStackTrace();
+            }
+        });
+    }
+
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
@@ -194,10 +218,5 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     private void clearCanvas(Canvas c, Float left, Float top, Float right, Float bottom) {
         c.drawRect(left, top, right, bottom, mClearPaint);
 
-    }
-
-    public void reRead(){
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.detach(this).attach(this).commit();
     }
 }

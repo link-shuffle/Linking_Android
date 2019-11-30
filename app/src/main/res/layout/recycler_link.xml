@@ -23,6 +23,7 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/link_click"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="100dp">
@@ -85,6 +86,15 @@
             android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/link_edit"
+            android:scaleType="fitXY"
+            android:src="@drawable/dir_more2"
+            android:background="@color/transparent"
+            android:layout_gravity="right|bottom"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
 
         <!--
         <androidx.recyclerview.widget.RecyclerView

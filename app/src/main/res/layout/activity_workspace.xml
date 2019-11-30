@@ -38,49 +38,52 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_main">'
+            app:headerLayout="@layout/nav_header_main">
 
             <ScrollView
                 android:layout_marginTop="70dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:overScrollMode="never"
-                    android:id="@+id/nav_recyclerPrivate"
+                <Button
+                    android:drawableLeft="@drawable/dir_plus"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:gravity="left|center_vertical"
+                    android:text="New directory"
+                    android:drawablePadding="@dimen/activity_vertical_margin"
+                    android:onClick="dir_add"
+                    android:background="@color/transparent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-
-                <View
-                    android:layout_marginTop="5dp"
-                    android:background="#d5d5d5d5"
+                <Button
+                    android:onClick="btn_favorite"
+                    android:textColor="#7b7b7b"
+                    android:paddingLeft="@dimen/activity_vertical_margin"
+                    android:gravity="left|center_vertical"
+                    android:background="@color/transparent"
+                    android:text="Favorite"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="2dp"
-                    android:layout_height="2px" />
+                    android:layout_height="wrap_content" />
+
                 <TextView
-                    android:text="Public"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:text="Private"
                     android:textStyle="bold"
+                    android:layout_marginBottom="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:overScrollMode="never"
-                    android:id="@+id/nav_recyclerPublic"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:overScrollMode="never"
-                    android:layout_marginLeft="30dp"
-                    android:id="@+id/nav_recycleSub2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                android:overScrollMode="never"
+                android:id="@+id/nav_recyclerPrivate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
                 <View
                     android:layout_marginTop="5dp"
@@ -90,6 +93,7 @@
                     android:layout_height="2px" />
 
                 <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:text="Shard"
                     android:textStyle="bold"
                     android:layout_width="wrap_content"
@@ -101,14 +105,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
+
+                <View
+                    android:layout_marginTop="5dp"
+                    android:background="#d5d5d5d5"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_height="2px" />
+                <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:text="Public"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:overScrollMode="never"
-                    android:layout_marginLeft="30dp"
-                    android:id="@+id/nav_recycleSub3"
+                    android:id="@+id/nav_recyclerPublic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     />
-
             </LinearLayout>
             </ScrollView>
 

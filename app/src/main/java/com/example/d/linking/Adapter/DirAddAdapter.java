@@ -52,21 +52,15 @@ public class DirAddAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public ImageButton dir_title, dir_delete;
-        public Button dir_rename;
+        public Button dir_title;
 
         public MyViewHolder(View view){
             super(view);
             mContext = view.getContext();
             preferences = mContext.getSharedPreferences("user", MODE_PRIVATE);
             display_name = preferences.getString("display_name","");
-
             service= APIClient.getClient().create(APIInterface.class);
-
             dir_title = view.findViewById(R.id.dir_title);
-            dir_delete = view.findViewById(R.id.dir_delete);
-            dir_rename = view.findViewById(R.id.dir_rename);
-
         }
     }
 
@@ -80,8 +74,8 @@ public class DirAddAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final DirAddAdapter.MyViewHolder myViewHolder = (DirAddAdapter.MyViewHolder) holder;
-        myViewHolder.dir_rename.setText(dirAddList.get(position).getName());
         array[position] = dirAddList.get(position).getDir_id();
+        myViewHolder.dir_title.setText(dirAddList.get(position).getName());
 
         myViewHolder.dir_title.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -91,56 +85,10 @@ public class DirAddAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 mContext.startActivity(intent);
             }
         });
-        myViewHolder.dir_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
-                alert_confirm.setMessage("디렉토리를 삭제하시겠습니까?").setCancelable(false).setPositiveButton("YES",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Dirdelete(array[position]);
-                                Intent intent = new Intent(v.getContext(),Workspace.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                mContext.startActivity(intent);
-                            }
-                        }).setNegativeButton("CANCEL",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                return;
-                            }
-                        });
-                AlertDialog alert = alert_confirm.create();
-                alert.show();
-            }
-        });
-
-        myViewHolder.dir_rename.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), Directory_Rename.class);
-                intent.putExtra("dirID",array[position]);
-                intent.putExtra("dirName","");
-                mContext.startActivity(intent);
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
         return dirAddList.size();
     }
-
-    public void Dirdelete(int dir_id){
-        service.dirdelete(display_name,dir_id).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("디렉토 삭제 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(mContext, "delete success", Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
-        });
-    }}
+}

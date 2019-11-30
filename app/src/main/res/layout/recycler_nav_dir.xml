@@ -5,30 +5,48 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     <ImageButton
         android:id="@+id/arrow_right"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
         android:src="@drawable/arrow_right"
-        android:layout_width="wrap_content"
+        android:scaleType="fitXY"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_width="15dp"
         android:background="@color/transparent"
-        android:layout_height="wrap_content" />
+        android:layout_height="15dp" />
 
     <Button
+        android:layout_weight="1"
         android:id="@+id/dir_item"
-        android:layout_toRightOf="@id/arrow_right"
         android:background="@color/transparent"
         android:gravity="left|center_vertical"
         android:text="item1"
-        android:textColor="#2c3130"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>
-    </RelativeLayout>
+
+        <ImageButton
+            android:layout_margin="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_shared"
+            android:background="@color/transparent"
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
+
+        <ImageButton
+            android:id="@+id/dir_option"
+            android:src="@drawable/dir_more"
+            android:scaleType="fitXY"
+            android:layout_margin="10dp"
+            android:background="@color/transparent"
+            android:layout_width="15dp"
+            android:layout_height="15dp" />
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:overScrollMode="never"

@@ -182,8 +182,8 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
 
     //navigation item dynamic
     private void directoryList(String desplay) {
-        Call<ArrayList<DirectoryResponse>> dirlist = service.dirList(desplay);
-        dirlist.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+        Call<ArrayList<DirectoryResponse>> dirlist0 = service.dirList0(desplay);
+        dirlist0.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));

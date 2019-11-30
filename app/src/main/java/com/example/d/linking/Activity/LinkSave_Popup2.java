@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,8 +33,9 @@ public class LinkSave_Popup2 extends Activity {
     private SharedPreferences preferences;
     Button btn_discard2, btn_save2;
     EditText tag2, desc2, edit_url2;
+    String URL;
     int dir_id;
-    private APIInterface service ;
+    private APIInterface service;
 
 
     @Override
@@ -76,13 +78,16 @@ public class LinkSave_Popup2 extends Activity {
         btn_save2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("URL 내용",""+edit_url2.getText().toString());
                 if(edit_url2.getText().toString().length() == 0){
                     Toast.makeText(LinkSave_Popup2.this, "URL을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }else{
-                    linkAdd(new LinkAddData(edit_url2.getText().toString(), tag2.getText().toString(), desc2.getText().toString()));
-                    //Fragment_workspace refresh = new Fragment_workspace();
-                    //refresh.onRefresh();
-                    finish();
+                    if(URLUtil.isValidUrl(edit_url2.getText().toString())) {
+                        linkAdd(new LinkAddData(edit_url2.getText().toString(), tag2.getText().toString(), desc2.getText().toString()));
+                        finish();
+                    }else {
+                        Toast.makeText(LinkSave_Popup2.this, "유효하지 않은 링크입니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

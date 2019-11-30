@@ -40,6 +40,9 @@
         <activity
             android:name=".Activity.Directory_Rename"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".Activity.Link_edit_popup"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <!--navigation-->
         <activity
             android:name=".Activity.User_workspace"
@@ -50,6 +53,7 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activity.Search"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activity.Follow"></activity>
     </application>
 
 </manifest>

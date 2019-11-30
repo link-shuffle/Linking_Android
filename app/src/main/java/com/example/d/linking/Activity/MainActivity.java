@@ -123,7 +123,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                     preferences = getSharedPreferences("user", MODE_PRIVATE);
                     editor = preferences.edit();
                     editor.putString("display_name",account);
-                    //editor.putInt("dir_id",200);//고쳐고쳐
                     editor.commit();
                 }
                 Intent intent1 = new Intent(getApplicationContext(), Workspace.class);

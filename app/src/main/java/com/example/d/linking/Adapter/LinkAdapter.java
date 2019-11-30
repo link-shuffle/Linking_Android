@@ -1,13 +1,18 @@
 package com.example.d.linking.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.d.linking.Activity.Link_edit_popup;
 import com.example.d.linking.Data.LinkListResponse;
 import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
@@ -29,14 +34,17 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private String url;
     private APIInterface service ;
     int[] link_id = new int[1000];
+    Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         CircleImageView read_status;
         TextView meta_title, meta_desc, link_url, link_tag, desc;
-        ImageView meta_imgUrl, img_favorite;
+        ImageView meta_imgUrl, img_favorite, link_edit;
+        LinearLayout link_click;
 
         public MyViewHolder(View view){
             super(view);
+            mContext = view.getContext();
             read_status = (CircleImageView) view.findViewById(R.id.read_status);
             meta_title = (TextView) view.findViewById(R.id.meta_title);
             meta_desc = (TextView) view.findViewById(R.id.meta_desc);
@@ -45,6 +53,9 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             meta_imgUrl = (ImageView) view.findViewById(R.id.meta_imgUrl);
             desc = (TextView) view.findViewById(R.id.desc);
             img_favorite = (ImageView) view.findViewById(R.id.img_favorite);
+
+            link_click = (LinearLayout) view.findViewById(R.id.link_click);
+            link_edit = (ImageButton) view.findViewById(R.id.link_edit);
 
             service= APIClient.getClient().create(APIInterface.class);
         }
@@ -85,6 +96,28 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         LoadImage loadImage = new LoadImage(url);
         bitmap = loadImage.getBitmap();
         myViewHolder.meta_imgUrl.setImageBitmap(bitmap);
+
+        //link edit
+        myViewHolder.link_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Link_edit_popup.class);
+                intent.putExtra("link_id",link_id[position]);
+                intent.putExtra("tag",linkList.get(position).getLink_tag());
+                intent.putExtra("desc", linkList.get(position).getDesc());
+                mContext.startActivity(intent);
+            }
+        });
+
+        //link 연결
+        myViewHolder.link_click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //읽음 처리
+                readStatus(link_id[position]);
+
+            }
+        });
     }
 
     @Override
@@ -106,6 +139,18 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
         });
 
+    }
+
+    public void readStatus(int linkID){
+        service.linkstate(linkID).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("링크 상태 변경 결과",""+new Gson().toJson(response.code()));
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
     }
 
     public void favorite(int swipedPosition){

@@ -13,7 +13,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:text="Private"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginLeft="@dimen/activity_vertical_margin"
             android:overScrollMode="never"
             android:id="@+id/dir_private"
             android:layout_width="match_parent"
@@ -25,11 +35,21 @@
         android:layout_width="match_parent"
         android:layout_marginBottom="2dp"
         android:layout_height="2px" />
+
     <TextView
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:text="Shared"
         android:textStyle="bold"
+        android:layout_marginBottom="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:overScrollMode="never"
+                android:id="@+id/dir_shared"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
     <View
         android:layout_marginTop="5dp"
@@ -38,10 +58,20 @@
         android:layout_marginBottom="2dp"
         android:layout_height="2px" />
     <TextView
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:text="Public"
         android:textStyle="bold"
+        android:layout_marginBottom="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginLeft="@dimen/activity_vertical_margin"
+                android:overScrollMode="never"
+                android:id="@+id/dir_public"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/dir_add"
                 android:layout_width="wrap_content"
@@ -50,6 +80,7 @@
                 android:background="@drawable/background"
                 app:srcCompat="@drawable/plus_btn"
                 android:layout_margin="@dimen/fab_margin" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

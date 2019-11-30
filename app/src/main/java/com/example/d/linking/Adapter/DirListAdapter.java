@@ -1,15 +1,25 @@
 package com.example.d.linking.Adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
+import com.example.d.linking.Activity.Directory_Rename;
 import com.example.d.linking.Activity.Workspace;
 import com.example.d.linking.Data.DirectoryResponse;
 import com.example.d.linking.R;
@@ -22,6 +32,7 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,19 +42,19 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     int[] array = new int[1000];
+    ArrayList<RecyclerView> recycles = new ArrayList<>();
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     String display_name;
     Context mContext;
 
-    //디렉토리 list recycler
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public Button dir_item;
-        public ImageButton arrow_right;
+        public ImageButton arrow_right, dir_option;
+        private RecyclerView mRecyclerView;
+        private RecyclerView.LayoutManager mLayoutManager;
 
         public MyViewHolder(View view){
             super(view);
@@ -51,6 +62,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             preferences = mContext.getSharedPreferences("user", MODE_PRIVATE);
             display_name = preferences.getString("display_name","");
             dir_item = (Button) view.findViewById(R.id.dir_item);
+            dir_option = (ImageButton) view.findViewById(R.id.dir_option);
             arrow_right = (ImageButton) view.findViewById(R.id.arrow_right);
 
             //디렉토리 list recycler
@@ -74,7 +86,6 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_nav_dir, parent, false);
 
-
         return new MyViewHolder(v);
     }
 
@@ -84,6 +95,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         myViewHolder.dir_item.setText(dirList.get(position).getName());
         array[position] = dirList.get(position).getDir_id(); //directory id
+        recycles.add(myViewHolder.mRecyclerView);
 
         myViewHolder.dir_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,15 +116,64 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 myViewHolder.arrow_right.setImageResource(R.drawable.arrow_below);
                 //디렉토리 list 호출
                 if(display_name != null){
-                    directoryList2(display_name,array[position]);
+                    directoryList2(display_name,array[position], position);
                 }
+            }
+        });
+
+        myViewHolder.dir_option.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+                popupMenu.getMenuInflater().inflate(R.menu.dir_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()){
+                            //directory 삭제
+                            case R.id.delete:
+                                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
+                                alert_confirm.setMessage("디렉토리를 삭제하시겠습니까?").setCancelable(false).setPositiveButton("YES",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                Dirdelete(array[position]);
+                                                Intent intent = new Intent(v.getContext(),Workspace.class);
+                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                mContext.startActivity(intent);
+                                            }
+                                        }).setNegativeButton("CANCEL",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                return;
+                                            }
+                                        });
+                                AlertDialog alert = alert_confirm.create();
+                                alert.show();
+                                break;
+
+                                //디렉토리 수정
+                            case R.id.edit:
+                                Intent intent = new Intent(v.getContext(), Directory_Rename.class);
+                                intent.putExtra("dirID",array[position]);
+                                intent.putExtra("dirName","");
+                                mContext.startActivity(intent);
+                                break;
+                            default:
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                popupMenu.show();
             }
         });
 
     }
 
     //navigation item dynamic2
-    public void directoryList2(String name, int dirID) {
+    public void directoryList2(String name, int dirID, int position) {
         try {
             service.dirListSub(name,dirID).enqueue(new Callback<ArrayList<DirectoryResponse>>() {
                 @Override
@@ -120,7 +181,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     Log.d("통신성공", " " + new Gson().toJson(response.body()));
                     if(response.body() != null) {
                         DirListAdapter dir_Adapter = new DirListAdapter(response.body());
-                        mRecyclerView.setAdapter(dir_Adapter);
+                        recycles.get(position).setAdapter(dir_Adapter);
                     }
                 }
 
@@ -135,6 +196,19 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Log.d("디스플레이네임",""+name);
             return;
         }
+    }
+
+    public void Dirdelete(int dir_id){
+        service.dirdelete(display_name,dir_id).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("디렉토 삭제 결과",""+new Gson().toJson(response.code()));
+                Toast.makeText(mContext, "delete success", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
     }
 
     @Override

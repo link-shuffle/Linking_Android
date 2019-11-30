@@ -12,10 +12,19 @@
 
     <LinearLayout
         android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:gravity="right"
+        android:gravity="right|center_vertical"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btn_follow"
+            android:onClick="follow"
+            android:scaleType="fitXY"
+            android:src="@drawable/following"
+            android:background="@color/transparent"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
 
     <ImageButton
         android:id="@+id/btn_serach"

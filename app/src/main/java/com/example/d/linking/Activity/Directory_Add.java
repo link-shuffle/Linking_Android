@@ -33,8 +33,8 @@ public class Directory_Add extends AppCompatActivity {
     private SharedPreferences preferences;
     FloatingActionButton btn_dir_add;
     //디렉토리 list recycler
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView mRecyclerView, mRecyclerView2, mRecyclerView3;
+    RecyclerView.LayoutManager mLayoutManager, mLayoutManager2, mLayoutManager3;
     String display_name;
 
     @Override
@@ -56,6 +56,14 @@ public class Directory_Add extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView2 = findViewById(R.id.dir_public);
+        mRecyclerView2.setHasFixedSize(true);
+        mLayoutManager2 = new LinearLayoutManager(this);
+        mRecyclerView2.setLayoutManager(mLayoutManager2);
+        mRecyclerView3 = findViewById(R.id.dir_shared);
+        mRecyclerView3.setHasFixedSize(true);
+        mLayoutManager3 = new LinearLayoutManager(this);
+        mRecyclerView3.setLayoutManager(mLayoutManager3);
 
         DirList(display_name);
 
@@ -84,13 +92,43 @@ public class Directory_Add extends AppCompatActivity {
     }
 
     public void DirList(String display_name){
-        Call<ArrayList<DirectoryResponse>> dirlist = service.dirList(display_name);
-        dirlist.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+        Call<ArrayList<DirectoryResponse>> dirlist0 = service.dirList0(display_name);
+        Call<ArrayList<DirectoryResponse>> dirlist1 = service.dirList1(display_name);
+        Call<ArrayList<DirectoryResponse>> dirlist2 = service.dirList2(display_name);
+        dirlist0.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
                 DirAddAdapter listAddAdapter = new DirAddAdapter(response.body());
                 mRecyclerView.setAdapter(listAddAdapter);
+            }
+            @Override
+            public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
+                Log.d("디렉토리 리스트 통신 실패","");
+                t.printStackTrace();
+            }
+        });
+
+        dirlist1.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
+                Log.d("통신성공"," "+new Gson().toJson(response.body()));
+                DirAddAdapter listAddAdapter = new DirAddAdapter(response.body());
+                mRecyclerView2.setAdapter(listAddAdapter);
+            }
+            @Override
+            public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
+                Log.d("디렉토리 리스트 통신 실패","");
+                t.printStackTrace();
+            }
+        });
+
+        dirlist2.enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
+                Log.d("통신성공"," "+new Gson().toJson(response.body()));
+                DirAddAdapter listAddAdapter = new DirAddAdapter(response.body());
+                mRecyclerView3.setAdapter(listAddAdapter);
             }
             @Override
             public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
