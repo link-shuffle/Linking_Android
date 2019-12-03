@@ -40,8 +40,20 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main">
 
-            <ScrollView
+            <Button
                 android:layout_marginTop="70dp"
+                android:drawableLeft="@drawable/dir_plus"
+                android:paddingLeft="@dimen/activity_vertical_margin"
+                android:gravity="left|center_vertical"
+                android:text="New directory"
+                android:drawablePadding="@dimen/activity_vertical_margin"
+                android:onClick="dir_add"
+                android:background="@color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ScrollView
+                android:layout_marginTop="120dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -49,17 +61,6 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <Button
-                    android:drawableLeft="@drawable/dir_plus"
-                    android:paddingLeft="@dimen/activity_vertical_margin"
-                    android:gravity="left|center_vertical"
-                    android:text="New directory"
-                    android:drawablePadding="@dimen/activity_vertical_margin"
-                    android:onClick="dir_add"
-                    android:background="@color/transparent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
 
                 <Button
                     android:onClick="btn_favorite"

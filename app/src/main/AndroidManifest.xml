@@ -27,7 +27,6 @@
         </activity>
         <activity android:name=".Activity.UserSetting" />
         <activity android:name=".Activity.Directory_Add" />
-        <activity android:name=".Activity.Directory_Add2" />
         <activity
             android:name=".Activity.LinkSave_Popup"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
@@ -52,6 +51,8 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activity.Search"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activity.Search_user"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activity.Follow"></activity>
     </application>

@@ -20,6 +20,7 @@ import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.example.d.linking.Activity.Directory_Rename;
+import com.example.d.linking.Activity.Search_user;
 import com.example.d.linking.Activity.Workspace;
 import com.example.d.linking.Data.DirectoryResponse;
 import com.example.d.linking.R;
@@ -42,6 +43,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     int[] array = new int[1000];
+    int[] array_arrow = new int[1000];
     ArrayList<RecyclerView> recycles = new ArrayList<>();
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -52,7 +54,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public Button dir_item;
-        public ImageButton arrow_right, dir_option;
+        public ImageButton arrow_right, dir_option, dir_share;
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
 
@@ -63,6 +65,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             display_name = preferences.getString("display_name","");
             dir_item = (Button) view.findViewById(R.id.dir_item);
             dir_option = (ImageButton) view.findViewById(R.id.dir_option);
+            dir_share = (ImageButton) view.findViewById(R.id.dir_share);
             arrow_right = (ImageButton) view.findViewById(R.id.arrow_right);
 
             //디렉토리 list recycler
@@ -94,6 +97,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final MyViewHolder myViewHolder = (MyViewHolder) holder;
 
         myViewHolder.dir_item.setText(dirList.get(position).getName());
+        array_arrow[position]=0;
         array[position] = dirList.get(position).getDir_id(); //directory id
         recycles.add(myViewHolder.mRecyclerView);
 
@@ -113,14 +117,31 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myViewHolder.arrow_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myViewHolder.arrow_right.setImageResource(R.drawable.arrow_below);
-                //디렉토리 list 호출
-                if(display_name != null){
-                    directoryList2(display_name,array[position], position);
+                if(array_arrow[position] == 0){
+                    myViewHolder.arrow_right.setImageResource(R.drawable.arrow_below);
+                    //디렉토리 list 호출
+                    if(display_name != null){
+                        directoryList2(display_name,array[position], position);
+                        array_arrow[position] = 1;
+                    }
+                }else{
+                    myViewHolder.arrow_right.setImageResource(R.drawable.arrow_right);
+                    toggle(position);
+                    array_arrow[position] = 0;
+
                 }
             }
         });
 
+        myViewHolder.dir_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), Search_user.class);
+                mContext.startActivity(intent);
+            }
+        });
+
+        //하위 디렉토리 불러오기.
         myViewHolder.dir_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,7 +208,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
                 @Override
                 public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
-                    Log.d("디렉토리 리스트 통신 실패", "");
+                    Log.d("디렉토리 리스트 통신 실패", "리스트 통신 실");
                     t.printStackTrace();
                 }
             });
@@ -213,4 +234,19 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() { return dirList.size(); }
+
+    public void toggle(int position) {
+            service.toggle().enqueue(new Callback<ArrayList<DirectoryResponse>>() {
+                @Override
+                public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
+                    Log.d("빈배열","toggle");
+                    DirListAdapter dir_Adapter = new DirListAdapter(response.body());
+                    recycles.get(position).setAdapter(dir_Adapter);
+                }
+                @Override
+                public void onFailure(Call<ArrayList<DirectoryResponse>> call, Throwable t) {
+
+                }
+            });
+    }
 }

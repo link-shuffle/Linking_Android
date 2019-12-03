@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
-    android:background="#F3F3F3"
+    android:background="@drawable/roundedpopup"
     android:padding="10dp">
 
     <LinearLayout

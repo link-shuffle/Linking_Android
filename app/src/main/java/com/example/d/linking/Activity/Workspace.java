@@ -181,7 +181,7 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
     //favorite 버튼
     public void btn_favorite(View v){
         editor = preferences.edit();
-        editor.putInt("dir_id", 0);
+        editor.putInt("dir_id", 1);
         editor.putString("dir_name", "favorite");
         editor.commit();
         Intent intent = new Intent(Workspace.this,Workspace.class);

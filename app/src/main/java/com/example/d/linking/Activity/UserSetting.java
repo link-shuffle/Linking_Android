@@ -66,9 +66,10 @@ public class UserSetting extends AppCompatActivity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mGoogleSignInClient.signOut();
                         editor = preferences.edit();
-                        editor.putString("display_name","");
+                        editor.putString("display_name"," ");
                         editor.putInt("dir_id",0);
-                        editor.putString("dir_name","");
+                        editor.putString("dir_name"," ");
+                        editor.commit();
                         startActivity(intent);
                     }
                     @Override
@@ -99,9 +100,10 @@ public class UserSetting extends AppCompatActivity {
                         logoutToast.show();
                         Intent intent = new Intent(UserSetting.this, MainActivity.class);
                         editor = preferences.edit();
-                        editor.putString("display_name","");
+                        editor.putString("display_name"," ");
                         editor.putInt("dir_id",0);
-                        editor.putString("dir_name","");
+                        editor.putString("dir_name"," ");
+                        editor.commit();
                         startActivity(intent);
                         finish();
                     }

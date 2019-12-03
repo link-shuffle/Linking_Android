@@ -1,6 +1,9 @@
 package com.example.d.linking.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.d.linking.Activity.Follow;
 import com.example.d.linking.Activity.Fragment_following;
+import com.example.d.linking.Activity.Workspace;
 import com.example.d.linking.Data.FollowerResponse;
 import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
@@ -77,7 +81,25 @@ public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         myViewHolder.following_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                followingDelete(display_name, following.get(position).getDisplay_name());
+                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
+                alert_confirm.setMessage("팔로잉을 취소하시겠습니까?").setCancelable(false).setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                followingDelete(display_name, following.get(position).getDisplay_name());
+                                following.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position,following.size());
+                            }
+                        }).setNegativeButton("CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                AlertDialog alert = alert_confirm.create();
+                alert.show();
             }
         });
 

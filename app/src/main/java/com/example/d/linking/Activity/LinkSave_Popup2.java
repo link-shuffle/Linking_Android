@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -23,6 +24,8 @@ import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
 import com.example.d.linking.Server.APIInterface;
 import com.google.gson.Gson;
+
+import javax.security.auth.Destroyable;
 
 import androidx.fragment.app.Fragment;
 import retrofit2.Call;
@@ -78,13 +81,12 @@ public class LinkSave_Popup2 extends Activity {
         btn_save2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("URL 내용",""+edit_url2.getText().toString());
                 if(edit_url2.getText().toString().length() == 0){
                     Toast.makeText(LinkSave_Popup2.this, "URL을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }else{
                     if(URLUtil.isValidUrl(edit_url2.getText().toString())) {
                         linkAdd(new LinkAddData(edit_url2.getText().toString(), tag2.getText().toString(), desc2.getText().toString()));
-                        finish();
+
                     }else {
                         Toast.makeText(LinkSave_Popup2.this, "유효하지 않은 링크입니다.", Toast.LENGTH_SHORT).show();
                     }
@@ -100,6 +102,10 @@ public class LinkSave_Popup2 extends Activity {
             public void onResponse(Call<LinkAddResponse> call, Response<LinkAddResponse> response) {
                     Toast.makeText(LinkSave_Popup2.this, "Save Success", Toast.LENGTH_SHORT).show();
                     Log.d("링크 저장 결과",""+new Gson().toJson(response.code()));
+                    Intent intent = new Intent(LinkSave_Popup2.this, Workspace.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
             }
             @Override
             public void onFailure(Call<LinkAddResponse> call, Throwable t) {

@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:gravity="center"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageButton
+        android:id="@+id/arrow_right2"
+        android:src="@drawable/arrow_right"
+        android:scaleType="fitXY"
+        android:padding="10dp"
+        android:layout_width="30dp"
+        android:background="@color/transparent"
+        android:layout_height="30dp" />
 
     <Button
         android:id="@+id/dir_title"
         android:gravity="left|center_vertical"
         android:background="@color/transparent"
         android:layout_margin="8dp"
-        android:textSize="15sp"
         android:textColor="@color/black"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <ImageView
-        android:src="@drawable/dir_arrow"
-        android:scaleType="fitXY"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:layout_width="15dp"
-        android:layout_height="15dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:overScrollMode="never"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/nav_recycleSub2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 </LinearLayout>

@@ -15,10 +15,10 @@
         android:id="@+id/arrow_right"
         android:src="@drawable/arrow_right"
         android:scaleType="fitXY"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:layout_width="15dp"
+        android:padding="10dp"
+        android:layout_width="30dp"
         android:background="@color/transparent"
-        android:layout_height="15dp" />
+        android:layout_height="30dp" />
 
     <Button
         android:layout_weight="1"
@@ -31,21 +31,22 @@
         android:layout_width="match_parent"/>
 
         <ImageButton
-            android:layout_margin="10dp"
+            android:id="@+id/dir_share"
             android:scaleType="fitXY"
             android:src="@drawable/btn_shared"
             android:background="@color/transparent"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
+            android:padding="7dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
         <ImageButton
+            android:padding="7dp"
             android:id="@+id/dir_option"
             android:src="@drawable/dir_more"
             android:scaleType="fitXY"
-            android:layout_margin="10dp"
             android:background="@color/transparent"
-            android:layout_width="15dp"
-            android:layout_height="15dp" />
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

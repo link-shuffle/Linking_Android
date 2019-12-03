@@ -1,8 +1,11 @@
 package com.example.d.linking.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +32,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private SharedPreferences preferences;
     private Bitmap bitmap;
     private String url;
     private APIInterface service ;
     int[] link_id = new int[1000];
+    int dir_id;
+    int editPosition;
     Context mContext;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -45,6 +53,10 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public MyViewHolder(View view){
             super(view);
             mContext = view.getContext();
+
+            preferences = mContext.getSharedPreferences("user", MODE_PRIVATE);
+            dir_id = preferences.getInt("dir_id",0);
+
             read_status = (CircleImageView) view.findViewById(R.id.read_status);
             meta_title = (TextView) view.findViewById(R.id.meta_title);
             meta_desc = (TextView) view.findViewById(R.id.meta_desc);
@@ -97,7 +109,7 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         bitmap = loadImage.getBitmap();
         myViewHolder.meta_imgUrl.setImageBitmap(bitmap);
 
-        //link edit
+        //link 수정
         myViewHolder.link_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,8 +126,11 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 //읽음 처리
+                editPosition = position;
                 readStatus(link_id[position]);
-
+                myViewHolder.read_status.setImageResource(R.drawable.read_0);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(linkList.get(position).getLink()));
+                mContext.startActivity(intent);
             }
         });
     }
@@ -129,7 +144,7 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         linkList.remove(swipedPosition);
         notifyItemRemoved(swipedPosition);
 
-        service.linkdelete(link_id[swipedPosition]).enqueue(new Callback<ResponseBody>() {
+        service.linkdelete(dir_id,link_id[swipedPosition]).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("링크 삭제 결과",""+new Gson().toJson(response.code()));

@@ -117,14 +117,12 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 Log.d("받아온결과",""+new Gson().toJson(response.body()));
-                if(response.body().getCode() == 1 || response.body().getCode() == 0) {
-                    Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
-                    //SharedPreferences user 정보 저장
-                    preferences = getSharedPreferences("user", MODE_PRIVATE);
-                    editor = preferences.edit();
-                    editor.putString("display_name",account);
-                    editor.commit();
-                }
+                Toast.makeText(MainActivity.this, "환영합니다 "+account +"님", Toast.LENGTH_SHORT).show();
+                //SharedPreferences user 정보 저장
+                preferences = getSharedPreferences("user", MODE_PRIVATE);
+                editor = preferences.edit();
+                editor.putString("display_name",account);
+                editor.commit();
                 Intent intent1 = new Intent(getApplicationContext(), Workspace.class);
                 startActivity(intent1);
                 finish();

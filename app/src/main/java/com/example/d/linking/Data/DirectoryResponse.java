@@ -10,6 +10,9 @@ public class DirectoryResponse {
     @SerializedName("name")
     private String name;
 
+    @SerializedName("dir_type")
+    private int dir_type;
+
         public int getDir_id() {
             return dir_id;
         }
@@ -26,4 +29,5 @@ public class DirectoryResponse {
             this.name = name;
         }
 
+        public int getDir_type() { return dir_type;}
 }

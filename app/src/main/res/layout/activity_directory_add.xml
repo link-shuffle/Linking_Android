@@ -4,6 +4,19 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <Button
+        android:layout_margin="5dp"
+        android:id="@+id/btn_diradd2"
+        android:drawableLeft="@drawable/dir_plus"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:gravity="center_vertical"
+        android:text="New directory"
+        android:drawablePadding="@dimen/activity_vertical_margin"
+        android:background="@color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -71,15 +84,6 @@
                 android:id="@+id/dir_public"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/dir_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end|bottom"
-                android:background="@drawable/background"
-                app:srcCompat="@drawable/plus_btn"
-                android:layout_margin="@dimen/fab_margin" />
 
         </LinearLayout>
     </ScrollView>

@@ -70,8 +70,8 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
 
         //현재 directory 정보 가져오기
         preferences = this.getActivity().getSharedPreferences("user",MODE_PRIVATE);
-        dir_id = preferences.getInt("dir_id",200); ///defvalue 수정해야돼
-        dir_name = preferences.getString("dir_name","javascript");
+        dir_id = preferences.getInt("dir_id",0);
+        dir_name = preferences.getString("dir_name","");
         display_name = preferences.getString("display_name","");
 
         //현재 접속 user 이름출력 변경.
@@ -92,7 +92,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         mSwipeRefreshLayout.setColorSchemeResources(R.color.yellow, R.color.red, R.color.black, R.color.blue);
 
         //link list 불러오기.
-        if(dir_id != 0){
+        if(dir_id != 1){
             LinkList(dir_id);
         }else{
             favorite(display_name);
@@ -209,7 +209,11 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
             @Override
             public void run() {
                 //해당 어댑터를 서버와 통신한 값이 나오면 됨
-                LinkList(dir_id);
+                if(dir_id != 1){
+                    LinkList(dir_id);
+                }else{
+                    favorite(display_name);
+                }
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         },3000);

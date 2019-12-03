@@ -9,6 +9,7 @@ import com.example.d.linking.Data.LinkListResponse;
 import com.example.d.linking.Data.LoginData;
 import com.example.d.linking.Data.LoginResponse;
 import com.example.d.linking.Data.DirectoryResponse;
+import com.example.d.linking.Data.SearchUserResponse;
 
 import java.util.ArrayList;
 
@@ -42,8 +43,8 @@ public interface APIInterface {
     @POST("link/{dir_id}/read")
     Call<ArrayList<LinkListResponse>> linklist(@Path("dir_id") int dir_id);
 
-    @GET("link/{link_id}/delete")
-    Call<ResponseBody> linkdelete(@Path("link_id") int link_id);
+    @GET("link/{dir_id}/{link_id}/delete")
+    Call<ResponseBody> linkdelete(@Path("dir_id") int dir_id, @Path("link_id") int link_id);
 
     @POST("directory/{display_name}/{dir_id}/add")
     Call<ResponseBody> diradd(@Path("display_name") String display_name, @Path("dir_id") int dir_id, @Body DirAddData data);
@@ -74,6 +75,12 @@ public interface APIInterface {
 
     @GET("user/{display_name}/delete")
     Call<ResponseBody> userdelete(@Path("display_name") String display_name);
+
+    @GET("search/{display_name}/{keyword}")
+    Call<ArrayList<SearchUserResponse>> searchuser(@Path("display_name") String display_name, @Path("keyword") String keyword);
+
+    @GET("directory/toggle")
+    Call<ArrayList<DirectoryResponse>> toggle();
 
     //@FormUrlEncoded
 

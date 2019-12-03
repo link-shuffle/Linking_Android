@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -31,8 +32,7 @@ import retrofit2.Response;
 public class Directory_Add extends AppCompatActivity {
     private APIInterface service;
     private SharedPreferences preferences;
-    FloatingActionButton btn_dir_add;
-    //디렉토리 list recycler
+    Button btn_diradd2;
     RecyclerView mRecyclerView, mRecyclerView2, mRecyclerView3;
     RecyclerView.LayoutManager mLayoutManager, mLayoutManager2, mLayoutManager3;
     String display_name;
@@ -67,16 +67,16 @@ public class Directory_Add extends AppCompatActivity {
 
         DirList(display_name);
 
-        //디렉토리 추가 팝업 버튼
-        btn_dir_add = (FloatingActionButton) findViewById(R.id.dir_add);
-        btn_dir_add.setOnClickListener(new View.OnClickListener() {
+        btn_diradd2 = (Button) findViewById(R.id.btn_diradd2);
+        btn_diradd2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Directory_Add.this, DirSave_Popup.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), DirSave_Popup.class);
                 intent.putExtra("dirID",0);
                 startActivity(intent);
             }
         });
+
     }
 
     //toolbar 뒤로가기 버튼
