@@ -2,10 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:background="@drawable/roundedpopup"
-    android:padding="10dp">
+    android:gravity="center_horizontal"
+    android:background="#4D000000">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/roundedtest"
+        android:padding="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/layout2"
@@ -70,6 +76,7 @@
             android:inputType="textMultiLine|textNoSuggestions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+    </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

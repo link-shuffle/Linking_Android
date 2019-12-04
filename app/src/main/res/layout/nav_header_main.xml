@@ -30,4 +30,13 @@
         android:background="@color/transparent"
         android:layout_height="30dp" />
 
+    <ImageButton
+        android:onClick="btn_message"
+        android:background="@color/transparent"
+        android:src="@drawable/message"
+        android:scaleType="fitXY"
+        android:padding="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
 </LinearLayout>

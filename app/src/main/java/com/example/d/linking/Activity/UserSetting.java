@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +46,7 @@ public class UserSetting extends AppCompatActivity {
         display_name = preferences.getString("display_name","");
 
         ActionBar actionBar = getSupportActionBar();  //제목줄 객체 얻어오기
-        actionBar.setTitle(display_name);
+        actionBar.setTitle(Html.fromHtml("<font color='#2c3130'>"+display_name+"</font>"));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //현재 google 로그인 가져오기.

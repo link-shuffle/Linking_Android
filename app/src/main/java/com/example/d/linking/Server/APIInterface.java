@@ -82,6 +82,12 @@ public interface APIInterface {
     @GET("directory/toggle")
     Call<ArrayList<DirectoryResponse>> toggle();
 
+    @GET("directory/toggle")
+    Call<ArrayList<SearchUserResponse>> toggleuser();
+
+    @POST("following/{display_name}/{following}/add")
+    Call<ResponseBody> followingadd(@Path("display_name") String display_name, @Path("following") String following);
+
     //@FormUrlEncoded
 
 }

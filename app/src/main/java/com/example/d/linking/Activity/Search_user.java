@@ -95,7 +95,7 @@ public class Search_user extends Activity {
                             if(s.length() != 0) {
                                 searchUser(display_name, word);
                             }else{
-                                mRecyclerView.invalidate();
+                                toggle();
                             }
                             initial = bytetext.length;
                         }
@@ -125,6 +125,21 @@ public class Search_user extends Activity {
             public void onFailure(Call<ArrayList<SearchUserResponse>> call, Throwable t) {
                 Log.d(" 통신 실패","검색결과");
                 t.printStackTrace();
+            }
+        });
+    }
+
+    public void toggle(){
+        service.toggleuser().enqueue(new Callback<ArrayList<SearchUserResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<SearchUserResponse>> call, Response<ArrayList<SearchUserResponse>> response) {
+                Log.d("빈배열","toggle");
+                SearchUserAdapter adapter = new SearchUserAdapter(response.body());
+                mRecyclerView.setAdapter(adapter);
+            }
+            @Override
+            public void onFailure(Call<ArrayList<SearchUserResponse>> call, Throwable t) {
+
             }
         });
     }

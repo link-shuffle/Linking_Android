@@ -3,6 +3,7 @@ package com.example.d.linking.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,8 @@ public class Directory_Add extends AppCompatActivity {
         setContentView(R.layout.activity_directory_add);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(Html.fromHtml("<font color='#2c3130'>Linking</font>"));
 
         //server connection
         service= APIClient.getClient().create(APIInterface.class);

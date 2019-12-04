@@ -9,6 +9,9 @@ public class SearchUserResponse {
     @SerializedName("display_name")
     private String display_name;
 
+    @SerializedName("following_status")
+    private int following_status;
+
     public String getName() {
         return name;
     }
@@ -17,4 +20,5 @@ public class SearchUserResponse {
         return display_name;
     }
 
+    public int getFollowing_status() {return following_status;}
 }

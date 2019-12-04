@@ -48,17 +48,6 @@ public class DirSave_Popup extends Activity {
         Intent intent = getIntent();
         dir_id = intent.getIntExtra("dirID",0);
 
-        //배경 제거
-        WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags  = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount  = 0.8f;
-        getWindow().setAttributes(layoutParams);
-
-        //dialog size 설정
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        getWindow().getAttributes().width = (int) (dm.widthPixels * 0.9);
-        getWindow().getAttributes().height = (int) (dm.heightPixels * 0.25);
-
         dir_name = (EditText)findViewById(R.id.dir_name);
 
         btn_dirDiscard = (Button)findViewById(R.id.btn_dirDiscard);

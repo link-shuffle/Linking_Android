@@ -2,6 +2,7 @@ package com.example.d.linking.Data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class LinkListResponse {
@@ -12,7 +13,7 @@ public class LinkListResponse {
     private int link_id;
 
     @SerializedName("tag")
-    private String link_tag;
+    private ArrayList<String> link_tag;
 
     @SerializedName("desc")
     private String desc;
@@ -42,7 +43,7 @@ public class LinkListResponse {
         return link;
     }
 
-    public String getLink_tag() {
+    public ArrayList<String> getLink_tag() {
         return link_tag;
     }
 

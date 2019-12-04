@@ -52,17 +52,6 @@ public class Directory_Rename extends Activity {
         dir_renametext = (EditText)findViewById(R.id.dir_renametext);
         dir_renametext.setText(dir_name);
 
-        //배경 제거
-        WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags  = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount  = 0.8f;
-        getWindow().setAttributes(layoutParams);
-
-        //dialog size 설정
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        getWindow().getAttributes().width = (int) (dm.widthPixels * 0.9);
-        getWindow().getAttributes().height = (int) (dm.heightPixels * 0.25);
-
         btn_renamediscard = (Button)findViewById(R.id.btn_renameDiscard);
         btn_renamediscard.setOnClickListener(new View.OnClickListener() {
             @Override

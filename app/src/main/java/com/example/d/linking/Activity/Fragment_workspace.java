@@ -1,6 +1,5 @@
 package com.example.d.linking.Activity;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -16,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.d.linking.Adapter.LinkAdapter;
@@ -32,7 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,7 +47,6 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     String display_name;
     private Context mContext;
     TextView text_dirID;
-    //디렉토리 list recycler
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
@@ -68,13 +64,11 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         //ViewGroup rootView = (ViewGroup) getLayoutInflater().inflate(R.layout.fragment_workspace, container, false);
         View view = inflater.inflate(R.layout.fragment_workspace, container, false);
 
-        //현재 directory 정보 가져오기
         preferences = this.getActivity().getSharedPreferences("user",MODE_PRIVATE);
         dir_id = preferences.getInt("dir_id",0);
         dir_name = preferences.getString("dir_name","");
         display_name = preferences.getString("display_name","");
 
-        //현재 접속 user 이름출력 변경.
         text_dirID = (TextView) view.findViewById(R.id.directory_name);
         text_dirID.setText(dir_name);
 
@@ -145,7 +139,6 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                 int deleteIconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidth;
                 int deleteIconRight = itemView.getRight() - deleteIconMargin;
                 int deleteIconBottom = deleteIconTop + intrinsicHeight;
-
 
                 deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
                 deleteDrawable.draw(c);

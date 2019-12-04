@@ -41,18 +41,6 @@ public class Link_edit_popup extends Activity {
         tag = intent.getStringExtra("tag");
         desc = intent.getStringExtra("desc");
 
-
-        //배경 제거
-        WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags  = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount  = 0.8f;
-        getWindow().setAttributes(layoutParams);
-
-        //dialog size 설정
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        getWindow().getAttributes().width = (int) (dm.widthPixels * 0.9);
-        getWindow().getAttributes().height = (int) (dm.heightPixels * 0.3);
-
         btn_linkedit = (Button) findViewById(R.id.btn_linkedit);
         btn_linkeditDiscard = (Button) findViewById(R.id.btn_linkeditDiscard);
         link_editag = (EditText) findViewById(R.id.link_editag);

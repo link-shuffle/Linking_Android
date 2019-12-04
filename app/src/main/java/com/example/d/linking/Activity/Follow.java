@@ -2,12 +2,13 @@ package com.example.d.linking.Activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Html;
 import android.view.MenuItem;
 
 import com.example.d.linking.R;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -26,6 +27,8 @@ public class Follow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_follow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(Html.fromHtml("<font color='#2c3130'>Linking</font>"));
         mContext = getApplicationContext();
 
         mTabLayout = (TabLayout) findViewById(R.id.layout_tab);
@@ -40,6 +43,7 @@ public class Follow extends AppCompatActivity {
         mViewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());

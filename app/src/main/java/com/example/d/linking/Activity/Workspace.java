@@ -189,6 +189,12 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         startActivity(intent);
     }
 
+    //message 버튼
+    public void btn_message(View v){
+        Intent intent = new Intent(Workspace.this, Message.class);
+        startActivity(intent);
+    }
+
     //navigation item
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

@@ -1,6 +1,5 @@
 package com.example.d.linking.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,9 +21,11 @@ import com.example.d.linking.Server.APIClient;
 import com.example.d.linking.Server.APIInterface;
 import com.google.gson.Gson;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.ResponseBody;
@@ -46,9 +47,11 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         CircleImageView read_status;
-        TextView meta_title, meta_desc, link_url, link_tag, desc;
+        TextView meta_title, meta_desc, link_url, desc;
         ImageView meta_imgUrl, img_favorite, link_edit;
         LinearLayout link_click;
+        private RecyclerView mRecyclerView;
+        private RecyclerView.LayoutManager mLayoutManager;
 
         public MyViewHolder(View view){
             super(view);
@@ -61,13 +64,17 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             meta_title = (TextView) view.findViewById(R.id.meta_title);
             meta_desc = (TextView) view.findViewById(R.id.meta_desc);
             link_url = (TextView) view.findViewById(R.id.link_url);
-            link_tag = (TextView) view.findViewById(R.id.link_tag);
             meta_imgUrl = (ImageView) view.findViewById(R.id.meta_imgUrl);
             desc = (TextView) view.findViewById(R.id.desc);
             img_favorite = (ImageView) view.findViewById(R.id.img_favorite);
 
             link_click = (LinearLayout) view.findViewById(R.id.link_click);
             link_edit = (ImageButton) view.findViewById(R.id.link_edit);
+
+            mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+            mRecyclerView = view.findViewById(R.id.link_tag);
+            //mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(mLayoutManager);
 
             service= APIClient.getClient().create(APIInterface.class);
         }
@@ -93,7 +100,11 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         myViewHolder.meta_desc.setText(linkList.get(position).getMeta_desc());
         myViewHolder.meta_title.setText(linkList.get(position).getMeta_title());
         myViewHolder.desc.setText(linkList.get(position).getDesc());
-        myViewHolder.link_tag.setText(linkList.get(position).getLink_tag());
+
+        ArrayList<String> tag = new ArrayList<String>(linkList.get(position).getLink_tag());
+        TagListAdapter adapter = new TagListAdapter(tag);
+        myViewHolder.mRecyclerView.setAdapter(adapter);
+
         if(linkList.get(position).getFavorite_status() == 0){
             myViewHolder.img_favorite.setVisibility(View.INVISIBLE);
         }
@@ -115,7 +126,7 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), Link_edit_popup.class);
                 intent.putExtra("link_id",link_id[position]);
-                intent.putExtra("tag",linkList.get(position).getLink_tag());
+                //intent.putExtra("tag",linkList.get(position).getLink_tag());
                 intent.putExtra("desc", linkList.get(position).getDesc());
                 mContext.startActivity(intent);
             }
@@ -166,9 +177,5 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
-    }
-
-    public void favorite(int swipedPosition){
-
     }
 }

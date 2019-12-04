@@ -59,17 +59,6 @@ public class LinkSave_Popup2 extends Activity {
 
         service= APIClient.getClient().create(APIInterface.class);
 
-        //배경 제거
-        WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags  = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount  = 0.8f;
-        getWindow().setAttributes(layoutParams);
-
-        //dialog size 설정
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        getWindow().getAttributes().width = (int) (dm.widthPixels * 0.9);
-        getWindow().getAttributes().height = (int) (dm.heightPixels * 0.5);
-
         btn_discard2 = findViewById(R.id.btn_discard2);
         btn_discard2.setOnClickListener(new View.OnClickListener() {
             @Override
