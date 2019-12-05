@@ -27,7 +27,7 @@
         <Button
             android:id="@+id/btn_renameDiscard"
             android:background="@color/transparent"
-            android:text="Discard"
+            android:text="취소"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -36,7 +36,7 @@
             android:id="@+id/btn_rename"
             android:background="@color/transparent"
             android:layout_weight="1"
-            android:text="rename"
+            android:text="변경"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

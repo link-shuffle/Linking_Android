@@ -2,42 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/activity_vertical_margin">
+    android:layout_height="match_parent">
 
     <Button
         android:id="@+id/btn_logout"
         android:onClick="logout"
-        android:text="Logout"
+        android:text="로그아웃"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:paddingLeft="30dp"
-        android:gravity="left"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="left|center_vertical"
         android:background="@android:color/transparent"/>
 
-    <View
-        android:background="#d5d5d5d5"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="20dp"
-        android:layout_height="2px" />
 
     <Button
         android:id="@+id/btn_userdelete"
         android:onClick="logout"
-        android:text="Withdrawal"
+        android:text="탈퇴하기"
+        android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:paddingLeft="30dp"
-        android:gravity="left"
+        android:gravity="left|center_vertical"
         android:background="@android:color/transparent"/>
 
-    <View
-        android:background="#d5d5d5d5"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_height="2px" />
 
 </LinearLayout>

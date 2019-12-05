@@ -64,11 +64,12 @@
 
                 <Button
                     android:onClick="btn_favorite"
-                    android:textColor="#7b7b7b"
+                    android:textColor="@color/black"
                     android:paddingLeft="@dimen/activity_vertical_margin"
                     android:gravity="left|center_vertical"
                     android:background="@color/transparent"
-                    android:text="Favorite"
+                    android:text="즐겨찾기"
+                    android:textStyle="bold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 

@@ -1,6 +1,8 @@
 package com.example.d.linking.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
@@ -73,29 +75,44 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         myViewHolder.searchuser_display.setText(searchuser.get(position).getDisplay_name());
         myViewHolder.searchuser_name.setText(searchuser.get(position).getName());
         if(searchuser.get(position).getFollowing_status() == 1){
-            myViewHolder.btn_followuser.setText("UnFollowing");
+            myViewHolder.btn_followuser.setText("팔로잉");
             myViewHolder.btn_followuser.setBackgroundResource(R.drawable.btn_following);
         }else{
             myViewHolder.btn_followuser.setTextColor(Color.parseColor("#f4f4f4"));
             myViewHolder.btn_followuser.setBackgroundResource(R.drawable.btn_follow);
-            myViewHolder.btn_followuser.setText("Follow");
+            myViewHolder.btn_followuser.setText("팔로우");
         }
 
         myViewHolder.btn_followuser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(searchuser.get(position).getFollowing_status() == 1){
-                    //unfollowing
-                    followingDelete(display_name, searchuser.get(position).getDisplay_name());
-                    myViewHolder.btn_followuser.setTextColor(Color.parseColor("#f4f4f4"));
-                    myViewHolder.btn_followuser.setBackgroundResource(R.drawable.btn_follow);
-                    myViewHolder.btn_followuser.setText("Follow");
+                    AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
+                    alert_confirm.setMessage("팔로잉을 취소하시겠습니까?").setCancelable(false).setPositiveButton("팔로잉 취소",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //unfollowing
+                                    followingDelete(display_name, searchuser.get(position).getDisplay_name());
+                                    myViewHolder.btn_followuser.setTextColor(Color.parseColor("#f4f4f4"));
+                                    myViewHolder.btn_followuser.setBackgroundResource(R.drawable.btn_follow);
+                                    myViewHolder.btn_followuser.setText("팔로우");
+                                }
+                            }).setNegativeButton("취소",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = alert_confirm.create();
+                    alert.show();
 
                 }else{
                     //follow
                     followUser(display_name, searchuser.get(position).getDisplay_name());
                     myViewHolder.btn_followuser.setBackgroundResource(R.drawable.btn_following);
-                    myViewHolder.btn_followuser.setText("UnFollowing");
+                    myViewHolder.btn_followuser.setText("팔로잉");
                     myViewHolder.btn_followuser.setTextColor(Color.parseColor("#2c3130"));
                 }
             }
@@ -113,7 +130,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("팔로잉 추가 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(mContext, "Add completed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "팔로잉 되었습니다.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -126,7 +143,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("팔로잉 삭제 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(mContext, "Delete completed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "팔로잉 취소되었습니다.", Toast.LENGTH_SHORT).show();
 
             }
             @Override

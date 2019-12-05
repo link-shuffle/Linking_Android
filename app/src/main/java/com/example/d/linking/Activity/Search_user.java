@@ -61,7 +61,6 @@ public class Search_user extends Activity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         float density = displayMetrics.density;
-
         Drawable ic_id = getResources().getDrawable(R.drawable.search);
         int ic_width = Math.round(14 * density);
         int ic_height = Math.round(14 * density);

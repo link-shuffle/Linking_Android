@@ -62,7 +62,7 @@ public class UserSetting extends AppCompatActivity {
                 service.userdelete(display_name).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        Toast.makeText(UserSetting.this, "Withdrawal Completed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UserSetting.this, "탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(UserSetting.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         mGoogleSignInClient.signOut();

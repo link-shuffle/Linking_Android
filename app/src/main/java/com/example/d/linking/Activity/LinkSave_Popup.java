@@ -79,7 +79,7 @@ public class LinkSave_Popup extends Activity{
             btn_save.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    linkAdd(new LinkAddData(pasteData, tag.getText().toString(), desc.getText().toString()));
+                    //linkAdd(new LinkAddData(pasteData, tag.getText().toString(), desc.getText().toString()));
                 }
             });
         }catch (NullPointerException e){
@@ -89,7 +89,7 @@ public class LinkSave_Popup extends Activity{
 
     // linkadd
     private void linkAdd(LinkAddData data) {
-        service.linkadd(200,data).enqueue(new Callback<LinkAddResponse>() {
+        service.linkadd(200,"",data).enqueue(new Callback<LinkAddResponse>() {
             @Override
             public void onResponse(Call<LinkAddResponse> call, Response<LinkAddResponse> response) {
                 User_workspace result = new User_workspace();

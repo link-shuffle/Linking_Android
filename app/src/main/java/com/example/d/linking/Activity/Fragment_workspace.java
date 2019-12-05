@@ -100,7 +100,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         deleteDrawable = ContextCompat.getDrawable(mContext, R.drawable.delete);
         intrinsicWidth = deleteDrawable.getIntrinsicWidth();
         intrinsicHeight = deleteDrawable.getIntrinsicHeight();
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
 
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -112,12 +112,16 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                 int swipedPosition = viewHolder.getAdapterPosition();
                 LinkAdapter adapter = (LinkAdapter) mRecyclerView.getAdapter();
                 adapter.remove(swipedPosition);
+                //if (direction == ItemTouchHelper.RIGHT) {
 
+                //}else{
+
+                //}
             }
-
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                super.onChildDraw(c, recyclerView, viewHolder, dX /2, dY, actionState, isCurrentlyActive);
+
 
                 View itemView = viewHolder.itemView;
                 int itemHeight = itemView.getHeight();
@@ -142,6 +146,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
 
                 deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
                 deleteDrawable.draw(c);
+
 
             }
         };

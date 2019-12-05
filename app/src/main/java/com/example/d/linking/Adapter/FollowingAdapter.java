@@ -82,7 +82,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
-                alert_confirm.setMessage("팔로잉을 취소하시겠습니까?").setCancelable(false).setPositiveButton("YES",
+                alert_confirm.setMessage("팔로잉을 취소하시겠습니까?").setCancelable(false).setPositiveButton("팔로잉 취소",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -91,7 +91,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                 notifyItemRemoved(position);
                                 notifyItemRangeChanged(position,following.size());
                             }
-                        }).setNegativeButton("CANCEL",
+                        }).setNegativeButton("취소",
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

@@ -71,7 +71,7 @@ public class DirSave_Popup extends Activity {
         service.diradd(display_name, dir_id, data).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(DirSave_Popup.this, "save success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DirSave_Popup.this, "디렉토리 추가가 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(DirSave_Popup.this, Workspace.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

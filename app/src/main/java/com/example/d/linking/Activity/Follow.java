@@ -32,8 +32,8 @@ public class Follow extends AppCompatActivity {
         mContext = getApplicationContext();
 
         mTabLayout = (TabLayout) findViewById(R.id.layout_tab);
-        mTabLayout.addTab(mTabLayout.newTab().setText("Follower"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Following"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("팔로워"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("팔로잉"));
 
         mViewPager = (ViewPager) findViewById(R.id.pager_content);
         mContentsPagerAdapter = new ContentsPagerAdapter(

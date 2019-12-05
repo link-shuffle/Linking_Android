@@ -1,7 +1,9 @@
 package com.example.d.linking.Activity;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,10 +39,9 @@ public class Search extends AppCompatActivity {
         });
 
         mTabLayout = (TabLayout) findViewById(R.id.layout_tab2);
-        mTabLayout.addTab(mTabLayout.newTab().setText("All"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("User"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Link"));
-        mTabLayout.addTab(mTabLayout.newTab().setText("Tag"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("전체"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("사용자"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("태그"));
 
         mViewPager = (ViewPager) findViewById(R.id.pager_content2);
         mContentsPagerAdapter = new ContentsPagerAdapter(
@@ -66,6 +67,15 @@ public class Search extends AppCompatActivity {
 
             }
         });
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        float density = displayMetrics.density;
+        Drawable ic_id = getResources().getDrawable(R.drawable.search);
+        int ic_width = Math.round(14 * density);
+        int ic_height = Math.round(14 * density);
+        ic_id.setBounds(0, 0, ic_width, ic_height);
+
     }
 
     //viewpager adapter
@@ -89,10 +99,6 @@ public class Search extends AppCompatActivity {
                     return fragment_user;
 
                 case 2:
-                    Fragment_Link fragment_link = new Fragment_Link();
-                    return fragment_link;
-
-                case 3:
                     Fragment_Tag fragment_tag = new Fragment_Tag();
                     return fragment_tag;
 

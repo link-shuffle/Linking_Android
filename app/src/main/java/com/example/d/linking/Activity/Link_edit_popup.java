@@ -68,7 +68,7 @@ public class Link_edit_popup extends Activity {
         service.linkupdate(link_id, data).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(Link_edit_popup.this, "Modification completed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Link_edit_popup.this, "링크 수정이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Link_edit_popup.this, Workspace.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);

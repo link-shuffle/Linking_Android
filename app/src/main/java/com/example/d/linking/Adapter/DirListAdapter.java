@@ -154,7 +154,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             //directory 삭제
                             case R.id.delete:
                                 AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
-                                alert_confirm.setMessage("디렉토리를 삭제하시겠습니까?").setCancelable(false).setPositiveButton("YES",
+                                alert_confirm.setMessage("디렉토리를 삭제하시겠습니까?").setCancelable(false).setPositiveButton("삭제",
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -163,7 +163,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                                 mContext.startActivity(intent);
                                             }
-                                        }).setNegativeButton("CANCEL",
+                                        }).setNegativeButton("취소",
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -214,7 +214,6 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             });
 
         }catch (NullPointerException e){
-            Log.d("디스플레이네임",""+name);
             return;
         }
     }
@@ -224,7 +223,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("디렉토 삭제 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(mContext, "delete success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "디렉토리 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {

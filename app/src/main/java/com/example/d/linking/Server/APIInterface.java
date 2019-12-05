@@ -37,8 +37,8 @@ public interface APIInterface {
     @POST("directory/{display_name}/{dir_id}")
     Call<ArrayList<DirectoryResponse>> dirListSub(@Path("display_name") String display_name, @Path("dir_id") int dir_id);
 
-    @POST("link/{dir_id}/saved")
-    Call<LinkAddResponse> linkadd(@Path("dir_id") int dir_id, @Body LinkAddData data);
+    @POST("link/{display_name}/{dir_id}/saved")
+    Call<LinkAddResponse> linkadd(@Path("dir_id") int dir_id, @Path("display_name") String display_name,@Body LinkAddData data);
 
     @POST("link/{dir_id}/read")
     Call<ArrayList<LinkListResponse>> linklist(@Path("dir_id") int dir_id);

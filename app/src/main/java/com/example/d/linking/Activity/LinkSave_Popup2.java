@@ -37,6 +37,7 @@ public class LinkSave_Popup2 extends Activity {
     Button btn_discard2, btn_save2;
     EditText tag2, desc2, edit_url2;
     String URL;
+    String display_name;
     int dir_id;
     private APIInterface service;
 
@@ -49,7 +50,8 @@ public class LinkSave_Popup2 extends Activity {
         setContentView(R.layout.activity_linksave_popup2);
 
         preferences = getSharedPreferences("user",MODE_PRIVATE);
-        dir_id = preferences.getInt("dir_id",200); //devalue 수정해야돼.
+        dir_id = preferences.getInt("dir_id",0);
+        display_name = preferences.getString("display_name","");
 
         btn_discard2 = (Button) findViewById(R.id.btn_discard2);
         btn_save2 = (Button) findViewById(R.id.btn_save2);
@@ -86,10 +88,10 @@ public class LinkSave_Popup2 extends Activity {
 
     // linkadd
     private void linkAdd(LinkAddData data) {
-        service.linkadd(dir_id,data).enqueue(new Callback<LinkAddResponse>() {
+        service.linkadd(dir_id,display_name,data).enqueue(new Callback<LinkAddResponse>() {
             @Override
             public void onResponse(Call<LinkAddResponse> call, Response<LinkAddResponse> response) {
-                    Toast.makeText(LinkSave_Popup2.this, "Save Success", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LinkSave_Popup2.this, "링크 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                     Log.d("링크 저장 결과",""+new Gson().toJson(response.code()));
                     Intent intent = new Intent(LinkSave_Popup2.this, Workspace.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

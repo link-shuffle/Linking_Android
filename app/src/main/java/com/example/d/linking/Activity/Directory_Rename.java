@@ -74,7 +74,7 @@ public class Directory_Rename extends Activity {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("디렉토리 수정 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(Directory_Rename.this, "Modification completed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Directory_Rename.this, "디렉토리 이름 수정이 완료되었습니다.",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Directory_Rename.this, Workspace.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
