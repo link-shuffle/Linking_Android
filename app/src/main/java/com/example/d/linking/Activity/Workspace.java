@@ -160,12 +160,6 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         startActivity(intent);
     }
 
-    //directory 추가 버튼
-    public void dir_add(View v){
-        Intent intent = new Intent(Workspace.this, Directory_Add.class);
-        startActivity(intent);
-    }
-
     //search 버튼
     public void search(View v){
         Intent intent = new Intent(Workspace.this, Search.class);
@@ -175,6 +169,13 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
     //follow 버튼
     public void follow(View v){
         Intent intent = new Intent(Workspace.this, Follow.class);
+        startActivity(intent);
+    }
+
+    //최상위 디렉토리 추가 버튼
+    public void btn_dirplus(View v){
+        Intent intent = new Intent(Workspace.this, DirSave_Popup.class);
+        intent.putExtra("dirID",0);
         startActivity(intent);
     }
 

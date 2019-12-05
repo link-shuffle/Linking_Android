@@ -26,7 +26,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.UserSetting" />
-        <activity android:name=".Activity.Directory_Add" />
         <activity
             android:name=".Activity.LinkSave_Popup"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />

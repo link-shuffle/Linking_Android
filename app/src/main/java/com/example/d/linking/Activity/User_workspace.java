@@ -108,12 +108,6 @@ public class User_workspace extends AppCompatActivity implements NavigationView.
         startActivity(intent);
     }
 
-    //directory 추가 버튼
-    public void dir_add(View v){
-        Intent intent = new Intent(User_workspace.this, Directory_Add.class);
-        startActivity(intent);
-    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -103,6 +103,7 @@ public class Search_user extends Activity {
                     }
                 }
             }
+
             @Override
             public void afterTextChanged(Editable s) {
             }

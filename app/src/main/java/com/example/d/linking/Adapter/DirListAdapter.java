@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import com.example.d.linking.Activity.DirSave_Popup;
 import com.example.d.linking.Activity.Directory_Rename;
 import com.example.d.linking.Activity.Search_user;
 import com.example.d.linking.Activity.Workspace;
@@ -180,6 +181,12 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 intent.putExtra("dirID",array[position]);
                                 intent.putExtra("dirName","");
                                 mContext.startActivity(intent);
+                                break;
+
+                            case R.id.add:
+                                Intent intent2 = new Intent(v.getContext(), DirSave_Popup.class);
+                                intent2.putExtra("dirID",array[position]);
+                                mContext.startActivity(intent2);
                                 break;
                             default:
                                 break;

@@ -79,6 +79,9 @@ public interface APIInterface {
     @GET("search/{display_name}/{keyword}")
     Call<ArrayList<SearchUserResponse>> searchuser(@Path("display_name") String display_name, @Path("keyword") String keyword);
 
+    @GET("search/{display_name}/{keyword}/all")
+    Call<ArrayList<LinkListResponse>> searchall(@Path("display_name") String display_name, @Path("keyword") String keyword);
+
     @GET("directory/toggle")
     Call<ArrayList<DirectoryResponse>> toggle();
 

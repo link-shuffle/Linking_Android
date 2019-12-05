@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/add" android:title="디렉토리 추가"></item>
     <item android:id="@+id/delete" android:title="디렉토리 삭제"></item>
     <item android:id="@+id/edit" android:title="디렉토리 수정"></item>
 

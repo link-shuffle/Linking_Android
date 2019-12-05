@@ -40,20 +40,9 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main">
 
-            <Button
-                android:layout_marginTop="70dp"
-                android:drawableLeft="@drawable/dir_plus"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:gravity="left|center_vertical"
-                android:text="New directory"
-                android:drawablePadding="@dimen/activity_vertical_margin"
-                android:onClick="dir_add"
-                android:background="@color/transparent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
 
             <ScrollView
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="70dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -73,13 +62,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <LinearLayout
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <TextView
                     android:layout_marginLeft="@dimen/activity_vertical_margin"
                     android:text="Private"
                     android:textStyle="bold"
-                    android:layout_marginBottom="5dp"
-                    android:layout_width="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
+                    <ImageButton
+                        android:onClick="btn_dirplus"
+                        android:src="@drawable/plus"
+                        android:scaleType="fitXY"
+                        android:padding="10dp"
+                        android:background="@color/transparent"
+                        android:layout_gravity="right"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp" />
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                 android:overScrollMode="never"
