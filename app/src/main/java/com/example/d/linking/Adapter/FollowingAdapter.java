@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.d.linking.Activity.Follow;
 import com.example.d.linking.Activity.Fragment_following;
+import com.example.d.linking.Activity.Other_Workspace;
 import com.example.d.linking.Activity.Workspace;
 import com.example.d.linking.Data.FollowerResponse;
 import com.example.d.linking.R;
@@ -35,6 +37,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private APIInterface service;
     String display_name;
     Context mContext;
@@ -47,6 +50,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView following_display, following_name;
         Button following_delete;
+        LinearLayout other_user;
 
         public MyViewHolder(View view){
             super(view);
@@ -58,6 +62,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             following_display = (TextView) view.findViewById(R.id.following_display);
             following_name = (TextView) view.findViewById(R.id.following_name);
             following_delete = (Button) view.findViewById(R.id.following_delete);
+            other_user = (LinearLayout) view.findViewById(R.id.other_user);
 
             service= APIClient.getClient().create(APIInterface.class);
         }
@@ -100,6 +105,20 @@ public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         });
                 AlertDialog alert = alert_confirm.create();
                 alert.show();
+            }
+        });
+
+        myViewHolder.other_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),Other_Workspace.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                editor = preferences.edit();
+                editor.putString("other_user",following.get(position).getDisplay_name());
+                editor.putInt("otherdir_id",0);
+                editor.putString("otherdir_name","");
+                editor.commit();
+                mContext.startActivity(intent);
             }
         });
 

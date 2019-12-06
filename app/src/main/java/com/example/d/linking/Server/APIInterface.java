@@ -12,6 +12,7 @@ import com.example.d.linking.Data.LoginResponse;
 import com.example.d.linking.Data.DirectoryResponse;
 import com.example.d.linking.Data.MailData;
 import com.example.d.linking.Data.MailListResponse;
+import com.example.d.linking.Data.OtherUserResponse;
 import com.example.d.linking.Data.SearchUserResponse;
 
 import java.util.ArrayList;
@@ -108,5 +109,8 @@ public interface APIInterface {
 
     @GET("mail/{mail_id}/delete")
     Call<ResponseBody> maildelete(@Path("mail_id") int mail_id);
+
+    @GET("directory/{display_name}")
+    Call<OtherUserResponse> otheruser(@Path("display_name") String display_name);
 
 }

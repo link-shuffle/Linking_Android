@@ -13,6 +13,7 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:layout_gravity="center_vertical|center_horizontal"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
@@ -28,11 +29,36 @@
             android:layout_height="wrap_content" />
 
     <EditText
+        android:textSize="14sp"
         android:id="@+id/link_editag"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+        <ImageButton
+            android:id="@+id/btn_add"
+            android:scaleType="fitXY"
+            android:padding="10dp"
+            android:src="@drawable/plus"
+            android:layout_gravity="center_vertical"
+            android:background="@color/transparent"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
     </LinearLayout>
+
+    <ListView
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:dividerHeight="0px"
+        android:divider="#ffffff"
+        android:id="@+id/list_tag"
+        android:focusable="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <LinearLayout
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginRight="@dimen/activity_vertical_margin"
@@ -48,6 +74,7 @@
             android:layout_height="wrap_content" />
 
     <EditText
+        android:textSize="14sp"
         android:id="@+id/link_editdesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

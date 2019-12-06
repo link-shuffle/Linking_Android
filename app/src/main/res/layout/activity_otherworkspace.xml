@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl_main_drawer_root"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:fitsSystemWindows="true"
+        tools:openDrawer="start">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/toolbar2"/>
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/activity_main_content2" />
+        </LinearLayout>
+
+        <!-- 네비게이션 메뉴 화면-->
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_main_navigation_root"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true">
+
+            <LinearLayout
+                android:layout_margin="20dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginLeft="20dp"
+                android:id="@+id/other_display"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/other_name"
+                android:textSize="15sp"
+                android:layout_marginLeft="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:text="팔로워"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/other_follower"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <TextView
+                            android:textStyle="bold"
+                            android:textColor="@color/black"
+                            android:text="팔로잉"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:id="@+id/other_following"
+                            android:textStyle="bold"
+                            android:textSize="18sp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_marginTop="140dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_marginLeft="10dp"
+                        android:overScrollMode="never"
+                        android:id="@+id/nav_recyclerPublic2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+            </ScrollView>
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

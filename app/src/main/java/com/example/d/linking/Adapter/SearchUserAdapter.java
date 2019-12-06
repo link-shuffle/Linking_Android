@@ -3,6 +3,7 @@ package com.example.d.linking.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.util.Log;
@@ -10,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.d.linking.Activity.Other_Workspace;
 import com.example.d.linking.Data.SearchUserResponse;
 import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
@@ -35,6 +38,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     Context mContext;
     private APIInterface service;
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     String display_name;
 
     private ArrayList<SearchUserResponse> searchuser;
@@ -45,6 +49,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView searchuser_display, searchuser_name;
         Button btn_followuser;
+        LinearLayout search_user;
         public MyViewHolder(View view){
             super(view);
             mContext = view.getContext();
@@ -56,6 +61,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             searchuser_display = (TextView) view.findViewById(R.id.searchuser_display);
             searchuser_name = (TextView) view.findViewById(R.id.searchuser_name);
             btn_followuser = (Button) view.findViewById(R.id.btn_followuser);
+            search_user = (LinearLayout) view.findViewById(R.id.search_user);
 
         }
     }
@@ -115,6 +121,20 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     myViewHolder.btn_followuser.setText("팔로잉");
                     myViewHolder.btn_followuser.setTextColor(Color.parseColor("#2c3130"));
                 }
+            }
+        });
+
+        myViewHolder.search_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(),Other_Workspace.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                editor = preferences.edit();
+                editor.putString("other_user",searchuser.get(position).getDisplay_name());
+                editor.putInt("otherdir_id",0);
+                editor.putString("otherdir_name","");
+                editor.commit();
+                mContext.startActivity(intent);
             }
         });
 

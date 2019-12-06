@@ -92,7 +92,7 @@ public class LinkSave_Popup extends Activity{
         service.linkadd(200,"",data).enqueue(new Callback<LinkAddResponse>() {
             @Override
             public void onResponse(Call<LinkAddResponse> call, Response<LinkAddResponse> response) {
-                User_workspace result = new User_workspace();
+                //User_workspace result = new User_workspace();
                 Toast.makeText(LinkSave_Popup.this, "Save Success", Toast.LENGTH_SHORT).show();
                 finish();
             }

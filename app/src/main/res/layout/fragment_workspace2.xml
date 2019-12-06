@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_weight="1"
+        android:text="directory_name"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/directory_name"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        style="@style/TextShadow"
+        android:textColor="#2c3130"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:id="@+id/swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+        android:overScrollMode="never"
+        android:id="@+id/recylcer_linkcard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+    </RelativeLayout>
+    </ScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>
