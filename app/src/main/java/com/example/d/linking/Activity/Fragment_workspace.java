@@ -1,6 +1,9 @@
 package com.example.d.linking.Activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,7 +18,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.d.linking.Adapter.LinkAdapter;
 import com.example.d.linking.Data.LinkListResponse;
@@ -34,6 +39,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,13 +48,14 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private SharedPreferences preferences;
-    int dir_id;
-    String dir_name;
-    String display_name;
+    private int dir_id, dir_type;
+    private ImageButton btn_auth;
+    private String dir_name;
+    private String display_name;
     private Context mContext;
-    TextView text_dirID;
-    RecyclerView mRecyclerView;
-    RecyclerView.LayoutManager mLayoutManager;
+    private TextView text_dirID;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private Paint mClearPaint;
@@ -68,9 +75,66 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         dir_id = preferences.getInt("dir_id",0);
         dir_name = preferences.getString("dir_name","");
         display_name = preferences.getString("display_name","");
+        dir_type = preferences.getInt("dir_type",0);
 
         text_dirID = (TextView) view.findViewById(R.id.directory_name);
         text_dirID.setText(dir_name);
+
+        btn_auth = (ImageButton) view.findViewById(R.id.btn_auth);
+        if(dir_type == 0){ //비공개
+            btn_auth.setImageResource(R.drawable.btn_private);
+        }else if(dir_type == 1){ //공개
+            btn_auth.setImageResource(R.drawable.btn_public);
+        }else{ //즐겨찾기
+            btn_auth.setVisibility(View.GONE);
+        }
+
+        btn_auth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
+                if(dir_type == 0) {
+                    alert_confirm.setMessage("디렉토리를 공개하시겠습니까?").setCancelable(false).setPositiveButton("공개",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dirAuth(dir_id, dir_name);
+                                    Intent intent = new Intent(v.getContext(),Workspace.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    mContext.startActivity(intent);
+                                }
+                            }).setNegativeButton("취소",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = alert_confirm.create();
+                    alert.show();
+                }else{
+                    alert_confirm.setMessage("디렉토리를 비공개하시겠습니까?").setCancelable(false).setPositiveButton("비공개",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dirAuth(dir_id, dir_name);
+                                    Intent intent = new Intent(v.getContext(),Workspace.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    mContext.startActivity(intent);
+                                }
+                            }).setNegativeButton("취소",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    return;
+                                }
+                            });
+                    AlertDialog alert = alert_confirm.create();
+                    alert.show();
+
+                }
+            }
+        });
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recylcer_linkcard);
         mRecyclerView.setHasFixedSize(true);
@@ -182,7 +246,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     }
 
     //favorite link list 불러오기.
-    private void favorite(String display_name){
+    public void favorite(String display_name){
         Call<ArrayList<LinkListResponse>> linkfavorite = service.linkfavorite(display_name);
         linkfavorite.enqueue(new Callback<ArrayList<LinkListResponse>>() {
             @Override
@@ -199,6 +263,23 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         });
     }
 
+    //권한변경
+    public void dirAuth(int dir_id, String dir_name){
+        service.dirauth(dir_id, dir_name).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("권한 변경 결과",""+new Gson().toJson(response.code()));
+                Toast.makeText(mContext, "권한 변경이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext,Workspace.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(intent);
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+
+    }
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);

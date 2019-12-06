@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <TextView
+        android:layout_weight="1"
         android:text="directory_name"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
@@ -16,6 +22,17 @@
         android:textColor="#2c3130"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:src="@drawable/btn_private"
+            android:id="@+id/btn_auth"
+            android:scaleType="fitXY"
+            android:background="@color/transparent"
+            android:layout_marginRight="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+
+    </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:paddingTop="@dimen/activity_vertical_margin"

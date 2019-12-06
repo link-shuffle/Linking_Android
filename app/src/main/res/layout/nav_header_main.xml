@@ -30,6 +30,10 @@
         android:background="@color/transparent"
         android:layout_height="30dp" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
     <ImageButton
         android:onClick="btn_message"
         android:background="@color/transparent"
@@ -38,5 +42,25 @@
         android:padding="5dp"
         android:layout_width="30dp"
         android:layout_height="30dp" />
+
+    <ImageView
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/badge"
+        android:layout_width="15dp"
+        android:layout_height="15dp" />
+
+        <TextView
+            android:id="@+id/text_badge"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="25dp"
+            android:textSize="8sp"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:text="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
 </LinearLayout>

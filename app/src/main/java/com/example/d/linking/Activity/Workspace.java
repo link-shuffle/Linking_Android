@@ -1,5 +1,6 @@
 package com.example.d.linking.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -9,8 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.d.linking.Adapter.DirListAdapter;
+import com.example.d.linking.Data.BadgeResponse;
 import com.example.d.linking.Data.DirectoryResponse;
 import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
@@ -20,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -31,6 +36,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,10 +52,12 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
     Toolbar toolbar;
     String display_name;
     Button user_id;
+    TextView badge;
     //디렉토리 list recycler
     RecyclerView mRecyclerView, mRecyclerView2, mRecyclerView3;
     RecyclerView.LayoutManager mLayoutManager, mLayoutManager2, mLayoutManager3;
     private APIInterface service;
+    String badge_num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +104,6 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
-        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }
@@ -119,6 +126,23 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         // header에 있는 리소스 가져오기
         user_id = (Button) header.findViewById(R.id.user_id);
         user_id.setText(display_name);
+        badge = (TextView) header.findViewById(R.id.text_badge);
+        service.mailnumber(display_name).enqueue(new Callback<BadgeResponse>() {
+            @Override
+            public void onResponse(Call<BadgeResponse> call, Response<BadgeResponse> response) {
+                Log.d("메일 갯수",""+new Gson().toJson(response.code()));
+                try{
+                    badge_num = response.body().getMailnumber();
+                    badge.setText(badge_num);
+                }catch (NullPointerException e){
+
+                }
+            }
+            @Override
+            public void onFailure(Call<BadgeResponse> call, Throwable t) {
+            }
+        });
+
 
         //link 추가 팝업 버튼
         btn_link_add = (FloatingActionButton) findViewById(R.id.link_add);
@@ -183,7 +207,8 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
     public void btn_favorite(View v){
         editor = preferences.edit();
         editor.putInt("dir_id", 1);
-        editor.putString("dir_name", "favorite");
+        editor.putString("dir_name", "즐겨찾기");
+        editor.putInt("dir_type", 2);
         editor.commit();
         Intent intent = new Intent(Workspace.this,Workspace.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -192,7 +217,7 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
 
     //message 버튼
     public void btn_message(View v){
-        Intent intent = new Intent(Workspace.this, Message.class);
+        Intent intent = new Intent(Workspace.this, MailBox.class);
         startActivity(intent);
     }
 

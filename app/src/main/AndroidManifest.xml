@@ -54,7 +54,7 @@
         <activity android:name=".Activity.Search_user"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".Activity.Follow"></activity>
-        <activity android:name=".Activity.Message"></activity>
+        <activity android:name=".Activity.MailBox"></activity>
     </application>
 
 </manifest>

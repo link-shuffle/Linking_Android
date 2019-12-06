@@ -1,6 +1,7 @@
 package com.example.d.linking.Activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 
 import com.example.d.linking.Adapter.DirListAdapter;
 import com.example.d.linking.Adapter.SearchUserAdapter;
+import com.example.d.linking.Adapter.SearchUserSharedAdapter;
 import com.example.d.linking.Data.DirectoryResponse;
 import com.example.d.linking.Data.SearchUserResponse;
 import com.example.d.linking.R;
@@ -36,12 +38,14 @@ import retrofit2.Response;
 
 public class Search_user extends Activity {
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private APIInterface service;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private EditText bar_searchuser;
     private String display_name;
     private ImageButton btn_searchuserback;
+    private int dir_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +53,13 @@ public class Search_user extends Activity {
         setContentView(R.layout.activity_serachuser);
         preferences = getSharedPreferences("user", MODE_PRIVATE);
         display_name = preferences.getString("display_name","");
+
+        Intent intent = getIntent();
+        dir_id = intent.getIntExtra("dir_id",0);
+        preferences = getSharedPreferences("user", MODE_PRIVATE);
+        editor = preferences.edit();
+        editor.putInt("shared_id",dir_id);
+        editor.commit();
 
         //server connection
         service= APIClient.getClient().create(APIInterface.class);
@@ -117,7 +128,7 @@ public class Search_user extends Activity {
             @Override
             public void onResponse(Call<ArrayList<SearchUserResponse>> call, Response<ArrayList<SearchUserResponse>> response) {
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
-                SearchUserAdapter adapter = new SearchUserAdapter(response.body());
+                SearchUserSharedAdapter adapter = new SearchUserSharedAdapter(response.body());
                 mRecyclerView.invalidate();
                 mRecyclerView.setAdapter(adapter);
             }

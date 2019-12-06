@@ -1,5 +1,6 @@
 package com.example.d.linking.Server;
 
+import com.example.d.linking.Data.BadgeResponse;
 import com.example.d.linking.Data.DirAddData;
 import com.example.d.linking.Data.FollowerResponse;
 import com.example.d.linking.Data.LinkAddData;
@@ -9,6 +10,8 @@ import com.example.d.linking.Data.LinkListResponse;
 import com.example.d.linking.Data.LoginData;
 import com.example.d.linking.Data.LoginResponse;
 import com.example.d.linking.Data.DirectoryResponse;
+import com.example.d.linking.Data.MailData;
+import com.example.d.linking.Data.MailListResponse;
 import com.example.d.linking.Data.SearchUserResponse;
 
 import java.util.ArrayList;
@@ -91,6 +94,19 @@ public interface APIInterface {
     @POST("following/{display_name}/{following}/add")
     Call<ResponseBody> followingadd(@Path("display_name") String display_name, @Path("following") String following);
 
-    //@FormUrlEncoded
+    @POST("directory/{dir_id}/{name}/change")
+    Call<ResponseBody> dirauth(@Path("dir_id") int dir_id, @Path("name") String name);
+
+    @GET("mail/{display_name}/mailnumber")
+    Call<BadgeResponse> mailnumber(@Path("display_name") String display_name);
+
+    @GET("mail/{display_name}/mailList")
+    Call<ArrayList<MailListResponse>> maillist(@Path("display_name") String display_name);
+
+    @POST("mail/{display_name}/{sender}/{type}")
+    Call<ResponseBody> mailresponse(@Path("display_name") String display_name, @Path("sender") String sender, @Path("type") int type, @Body MailData data);
+
+    @GET("mail/{mail_id}/delete")
+    Call<ResponseBody> maildelete(@Path("mail_id") int mail_id);
 
 }

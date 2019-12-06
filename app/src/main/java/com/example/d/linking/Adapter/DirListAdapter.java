@@ -44,13 +44,13 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     int[] array = new int[1000];
+    int[] array_auth = new int[1000];
     int[] array_arrow = new int[1000];
     ArrayList<RecyclerView> recycles = new ArrayList<>();
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
     String display_name;
     Context mContext;
-
     private APIInterface service;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -100,6 +100,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myViewHolder.dir_item.setText(dirList.get(position).getName());
         array_arrow[position]=0;
         array[position] = dirList.get(position).getDir_id(); //directory id
+        array_auth[position] = dirList.get(position).getDir_type(); //dir_type
         recycles.add(myViewHolder.mRecyclerView);
 
         myViewHolder.dir_item.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +109,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 editor = preferences.edit();
                 editor.putInt("dir_id", array[position]);
                 editor.putString("dir_name",dirList.get(position).getName());
+                editor.putInt("dir_type", array_auth[position]);
                 editor.commit();
                 Intent intent = new Intent(v.getContext(),Workspace.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -138,6 +140,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), Search_user.class);
+                intent.putExtra("dir_id",array[position]);
                 mContext.startActivity(intent);
             }
         });

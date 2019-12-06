@@ -1,5 +1,7 @@
 package com.example.d.linking.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -62,16 +64,32 @@ public class UserSetting extends AppCompatActivity {
                 service.userdelete(display_name).enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        Toast.makeText(UserSetting.this, "탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(UserSetting.this, MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        mGoogleSignInClient.signOut();
-                        editor = preferences.edit();
-                        editor.putString("display_name"," ");
-                        editor.putInt("dir_id",0);
-                        editor.putString("dir_name"," ");
-                        editor.commit();
-                        startActivity(intent);
+                        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(UserSetting.this);
+                        alert_confirm.setMessage("탈퇴하시겠습니까?").setCancelable(false).setPositiveButton("탈퇴",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(UserSetting.this, "탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(UserSetting.this, MainActivity.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        mGoogleSignInClient.signOut();
+                                        editor = preferences.edit();
+                                        editor.putString("display_name","");
+                                        editor.putInt("dir_id",0);
+                                        editor.putString("dir_name","");
+                                        editor.putInt("shared_id", 0);
+                                        editor.commit();
+                                        startActivity(intent);
+                                    }
+                                }).setNegativeButton("취소",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        return;
+                                    }
+                                });
+                        AlertDialog alert = alert_confirm.create();
+                        alert.show();
                     }
                     @Override
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
@@ -97,13 +115,14 @@ public class UserSetting extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast logoutToast = Toast.makeText(getApplicationContext(), "Logout completed.", Toast.LENGTH_SHORT);
+                        Toast logoutToast = Toast.makeText(getApplicationContext(), "로그아웃이 완료되었습니다.", Toast.LENGTH_SHORT);
                         logoutToast.show();
                         Intent intent = new Intent(UserSetting.this, MainActivity.class);
                         editor = preferences.edit();
-                        editor.putString("display_name"," ");
+                        editor.putString("display_name","");
                         editor.putInt("dir_id",0);
-                        editor.putString("dir_name"," ");
+                        editor.putString("dir_name","");
+                        editor.putInt("shared_id", 0);
                         editor.commit();
                         startActivity(intent);
                         finish();

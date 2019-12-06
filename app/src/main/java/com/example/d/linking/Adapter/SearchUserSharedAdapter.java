@@ -10,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.d.linking.Data.MailData;
 import com.example.d.linking.Data.SearchUserResponse;
 import com.example.d.linking.R;
 import com.example.d.linking.Server.APIClient;
@@ -29,22 +31,23 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.example.d.linking.R.color.actionbarcolor;
 
-public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SearchUserSharedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     private APIInterface service;
     private SharedPreferences preferences;
     String display_name;
+    int dir_id;
 
     private ArrayList<SearchUserResponse> searchuser;
-    public SearchUserAdapter(ArrayList<SearchUserResponse> searchuser){
-        this.searchuser = searchuser;
+    public SearchUserSharedAdapter(ArrayList<SearchUserResponse> searchuser){
+        this.searchuser =searchuser;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView searchuser_display, searchuser_name;
         Button btn_followuser;
+        LinearLayout search_user;
         public MyViewHolder(View view){
             super(view);
             mContext = view.getContext();
@@ -52,10 +55,12 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             preferences = mContext.getSharedPreferences("user", MODE_PRIVATE);
             display_name = preferences.getString("display_name","");
+            dir_id = preferences.getInt("shared_id", 0);
 
             searchuser_display = (TextView) view.findViewById(R.id.searchuser_display);
             searchuser_name = (TextView) view.findViewById(R.id.searchuser_name);
             btn_followuser = (Button) view.findViewById(R.id.btn_followuser);
+            search_user = (LinearLayout) view.findViewById(R.id.search_user);
 
         }
     }
@@ -70,7 +75,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final SearchUserAdapter.MyViewHolder myViewHolder = (SearchUserAdapter.MyViewHolder) holder;
+        final SearchUserSharedAdapter.MyViewHolder myViewHolder = (SearchUserSharedAdapter.MyViewHolder) holder;
 
         myViewHolder.searchuser_display.setText(searchuser.get(position).getDisplay_name());
         myViewHolder.searchuser_name.setText(searchuser.get(position).getName());
@@ -118,6 +123,28 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }
         });
 
+        myViewHolder.search_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
+                alert_confirm.setMessage(searchuser.get(position).getDisplay_name()+"님께 공유하시겠습니까?").setCancelable(false).setPositiveButton("공유",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                shareDir(display_name, searchuser.get(position).getDisplay_name(), 0, new MailData(0,dir_id));
+                            }
+                        }).setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        });
+                AlertDialog alert = alert_confirm.create();
+                alert.show();
+            }
+        });
+
     }
 
     @Override
@@ -145,6 +172,19 @@ public class SearchUserAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 Log.d("팔로잉 삭제 결과",""+new Gson().toJson(response.code()));
                 Toast.makeText(mContext, "팔로잉 취소되었습니다.", Toast.LENGTH_SHORT).show();
 
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            }
+        });
+    }
+
+    public void shareDir(String display_name, String name, int type, MailData data){
+        service.mailresponse(display_name, name, type, data).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("공유 결과",""+new Gson().toJson(response.code()));
+                Toast.makeText(mContext, "디렉토리 공유가 신청되었습니다.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
