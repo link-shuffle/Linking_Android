@@ -83,6 +83,7 @@ public class Link_edit_popup extends Activity {
             }
         });
 
+
         list_tag.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

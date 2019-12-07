@@ -6,12 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -33,7 +28,6 @@ import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -59,11 +53,6 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     private APIInterface service;
     SwipeRefreshLayout mSwipeRefreshLayout;
     private Paint mClearPaint;
-    private ColorDrawable mBackground;
-    private int backgroundColor;
-    private Drawable deleteDrawable;
-    private int intrinsicWidth;
-    private int intrinsicHeight;
 
     @Nullable
     @Override
@@ -155,15 +144,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         }else{
             favorite(display_name);
         }
-
         //swipe background custom
-        mBackground = new ColorDrawable();
-        backgroundColor = Color.parseColor("#d74444");
-        mClearPaint = new Paint();
-        mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        deleteDrawable = ContextCompat.getDrawable(mContext, R.drawable.delete);
-        intrinsicWidth = deleteDrawable.getIntrinsicWidth();
-        intrinsicHeight = deleteDrawable.getIntrinsicHeight();
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
 
             @Override
@@ -176,48 +157,13 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                 int swipedPosition = viewHolder.getAdapterPosition();
                 LinkAdapter adapter = (LinkAdapter) mRecyclerView.getAdapter();
                 adapter.remove(swipedPosition);
-                //if (direction == ItemTouchHelper.RIGHT) {
-
-                //}else{
-
-                //}
             }
             @Override
             public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
                 super.onChildDraw(c, recyclerView, viewHolder, dX /2, dY, actionState, isCurrentlyActive);
 
-
-                View itemView = viewHolder.itemView;
-                int itemHeight = itemView.getHeight();
-
-                boolean isCancelled = dX == 0 && !isCurrentlyActive;
-
-                if (isCancelled) {
-                    clearCanvas(c, itemView.getRight() + dX, (float) itemView.getTop(), (float) itemView.getRight(), (float) itemView.getBottom());
-                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-                    return;
-                }
-
-                mBackground.setColor(backgroundColor);
-                mBackground.setBounds(itemView.getRight() + (int) dX, itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                mBackground.draw(c);
-
-                int deleteIconTop = itemView.getTop() + (itemHeight - intrinsicHeight) / 2;
-                int deleteIconMargin = (itemHeight - intrinsicHeight) / 2;
-                int deleteIconLeft = itemView.getRight() - deleteIconMargin - intrinsicWidth;
-                int deleteIconRight = itemView.getRight() - deleteIconMargin;
-                int deleteIconBottom = deleteIconTop + intrinsicHeight;
-
-                deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom);
-                deleteDrawable.draw(c);
-
-
             }
         };
-
-        //swipe delete
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
         return view;
     }
 
@@ -288,18 +234,13 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
             @Override
             public void run() {
                 //해당 어댑터를 서버와 통신한 값이 나오면 됨
-                if(dir_id != 1){
+                if (dir_id != 1) {
                     LinkList(dir_id);
-                }else{
+                } else {
                     favorite(display_name);
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        },3000);
-    }
-
-    private void clearCanvas(Canvas c, Float left, Float top, Float right, Float bottom) {
-        c.drawRect(left, top, right, bottom, mClearPaint);
-
+        }, 3000);
     }
 }

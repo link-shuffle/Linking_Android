@@ -35,7 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/TabTheme">
-
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/layout_tab2"
             android:layout_height="wrap_content"
@@ -45,11 +44,22 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ProgressBar
+        android:id="@+id/loadingPanel"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="20dp"
+        style="@style/GenericProgressIndicator"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:overScrollMode="never"
         android:id="@+id/recylcer_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
+    </RelativeLayout>
 
 </LinearLayout>

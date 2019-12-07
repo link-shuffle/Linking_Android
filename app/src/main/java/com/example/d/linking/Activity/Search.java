@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import com.example.d.linking.Adapter.LinkAdapter;
 import com.example.d.linking.Adapter.SearchUserAdapter;
@@ -45,6 +47,7 @@ public class Search extends AppCompatActivity {
     private Context mContext;
     private String display_name, word="";
     private EditText bar_search;
+    private ProgressBar loadingPanel;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
@@ -82,11 +85,15 @@ public class Search extends AppCompatActivity {
                         if (position == 0) {
                             searchAll(display_name, word);
                             currentPosition = position;
+                            loadingPanel.setVisibility(View.GONE);
                         } else if (position == 1) {
                             searchUser(display_name, word);
                             currentPosition = position;
+                            loadingPanel.setVisibility(View.GONE);
                         } else {
+                            searchTag(display_name, word);
                             currentPosition = position;
+                            loadingPanel.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -110,6 +117,9 @@ public class Search extends AppCompatActivity {
         ic_id.setBounds(0, 0, ic_width, ic_height);
 
         service= APIClient.getClient().create(APIInterface.class);
+
+        loadingPanel = (ProgressBar)findViewById(R.id.loadingPanel);
+        loadingPanel.setVisibility(View.GONE);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.recylcer_search);
         mRecyclerView.setHasFixedSize(true);
@@ -138,7 +148,7 @@ public class Search extends AppCompatActivity {
                                 }else if(position == 1){
                                     searchUser(display_name, word);
                                 }else{
-
+                                    searchTag(display_name, word);
                                 }
                             }else{
                                 toggle();
@@ -158,6 +168,7 @@ public class Search extends AppCompatActivity {
     }
 
     public void searchUser(String display_name, String keyword){
+        loadingPanel.setVisibility(View.VISIBLE);
         Call<ArrayList<SearchUserResponse>> user = service.searchuser(display_name,keyword);
 
         user.enqueue(new Callback<ArrayList<SearchUserResponse>>() {
@@ -167,6 +178,7 @@ public class Search extends AppCompatActivity {
                 SearchUserAdapter adapter = new SearchUserAdapter(response.body());
                 mRecyclerView.invalidate();
                 mRecyclerView.setAdapter(adapter);
+                loadingPanel.setVisibility(View.GONE);
             }
             @Override
             public void onFailure(Call<ArrayList<SearchUserResponse>> call, Throwable t) {
@@ -177,6 +189,7 @@ public class Search extends AppCompatActivity {
     }
 
     public void searchAll(String display_name, String keyword){
+        loadingPanel.setVisibility(View.VISIBLE);
         Call<ArrayList<LinkListResponse>> all = service.searchall(display_name,keyword);
 
         all.enqueue(new Callback<ArrayList<LinkListResponse>>() {
@@ -186,6 +199,7 @@ public class Search extends AppCompatActivity {
                 LinkAdapter adapter = new LinkAdapter(response.body());
                 mRecyclerView.invalidate();
                 mRecyclerView.setAdapter(adapter);
+                loadingPanel.setVisibility(View.GONE);
             }
             @Override
             public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {
@@ -194,6 +208,28 @@ public class Search extends AppCompatActivity {
             }
         });
     }
+
+    public void searchTag(String display_name, String keyword){
+        loadingPanel.setVisibility(View.VISIBLE);
+        Call<ArrayList<LinkListResponse>> tag = service.searchtag(display_name,keyword);
+
+        tag.enqueue(new Callback<ArrayList<LinkListResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<LinkListResponse>> call, Response<ArrayList<LinkListResponse>> response) {
+                Log.d("통신성공"," "+new Gson().toJson(response.body()));
+                LinkAdapter adapter = new LinkAdapter(response.body());
+                mRecyclerView.invalidate();
+                mRecyclerView.setAdapter(adapter);
+                loadingPanel.setVisibility(View.GONE);
+            }
+            @Override
+            public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {
+                Log.d(" 통신 실패","검색결과");
+                t.printStackTrace();
+            }
+        });
+    }
+
     public void toggle(){
         service.toggleuser().enqueue(new Callback<ArrayList<SearchUserResponse>>() {
             @Override
@@ -201,6 +237,7 @@ public class Search extends AppCompatActivity {
                 Log.d("빈배열","toggle");
                 SearchUserAdapter adapter = new SearchUserAdapter(response.body());
                 mRecyclerView.setAdapter(adapter);
+                loadingPanel.setVisibility(View.GONE);
             }
             @Override
             public void onFailure(Call<ArrayList<SearchUserResponse>> call, Throwable t) {

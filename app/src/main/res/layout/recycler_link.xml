@@ -1,163 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="10dp"
+    android:paddingBottom="5dp"
+    android:id="@+id/swipe_item"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent">
+    app:clickToClose="true"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:id="@+id/bottom_wrapper_2"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:src="@drawable/read"
-                android:paddingTop="50dp"
-                android:paddingBottom="50dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:scaleType="fitXY"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-            <ImageButton
-                android:scaleType="fitXY"
-                android:src="@drawable/favorite2"
-                android:paddingTop="50dp"
-                android:paddingBottom="50dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </LinearLayout>
         <ImageButton
-            android:paddingLeft="140dp"
+            android:id="@+id/btn_read"
+            android:paddingTop="70dp"
+            android:paddingBottom="70dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/unread"
+            android:background="@color/transparent"
+            android:layout_width="70dp"
+            android:layout_height="200dp" />
+
+        <ImageButton
+            android:id="@+id/btn_favorite"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:paddingBottom="70dp"
             android:paddingTop="70dp"
+            android:src="@drawable/favorite2"
             android:scaleType="fitXY"
-            android:src="@drawable/delete"
             android:background="@color/transparent"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_width="70dp"
+            android:layout_height="200dp" />
+
+        <ImageButton
+            android:id="@+id/btn_delete"
+            android:paddingTop="80dp"
+            android:paddingBottom="80dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:src="@drawable/delete"
+            android:scaleType="fitXY"
+            android:background="@color/transparent"
+            android:layout_width="70dp"
+            android:layout_height="200dp" />
 
     </LinearLayout>
 
-<androidx.cardview.widget.CardView
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="5dp"
-    android:layout_width="match_parent"
-    app:cardCornerRadius="30dp"
-    app:cardElevation="8dp"
-    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="30dp"
+        app:cardElevation="8dp">
 
         <ImageView
             android:id="@+id/img_favorite"
-            android:layout_marginLeft="25dp"
-            android:src="@drawable/favorite"
             android:layout_width="17dp"
-            android:layout_height="17dp" />
+            android:layout_height="17dp"
+            android:layout_marginLeft="25dp"
+            android:src="@drawable/favorite" />
 
         <LinearLayout
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/link_click"
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="100dp"
+                android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/read_status"
-                    android:layout_marginRight="5dp"
                     android:layout_width="8dp"
-                    android:layout_height="8dp" />
+                    android:layout_height="8dp"
+                    android:layout_marginRight="5dp" />
 
                 <LinearLayout
-                    android:layout_weight="1"
-                    android:orientation="vertical"
                     android:id="@+id/linear"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/meta_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:maxLines="2"
-                        android:textSize="18sp"
                         android:textColor="#2c3130"
-                        android:textStyle="bold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
                     <TextView
-                        android:textSize="12sp"
                         android:id="@+id/meta_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:maxLines="3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:textSize="12sp" />
+
                     <TextView
-                        android:textSize="8sp"
                         android:id="@+id/link_url"
-                        android:maxLines="1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textSize="8sp" />
                 </LinearLayout>
 
                 <com.example.d.linking.Adapter.CustomImageView
-                    android:scaleType="fitXY"
                     android:id="@+id/meta_imgUrl"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@id/linear"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp" />
+                    android:scaleType="fitXY" />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/desc"
-                android:maxLines="3"
-                android:textStyle="bold"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:maxLines="3"
+                android:textStyle="bold" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:overScrollMode="never"
-                    android:layout_weight="1"
                     android:id="@+id/link_tag"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:overScrollMode="never" />
 
                 <ImageButton
                     android:id="@+id/link_edit"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/dir_more2"
-                    android:background="@color/transparent"
-                    android:layout_gravity="right|bottom"
                     android:layout_width="20dp"
-                    android:layout_height="20dp" />
+                    android:layout_height="20dp"
+                    android:layout_gravity="right|bottom"
+                    android:background="@color/transparent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/dir_more2" />
             </LinearLayout>
         </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+</com.daimajia.swipe.SwipeLayout>

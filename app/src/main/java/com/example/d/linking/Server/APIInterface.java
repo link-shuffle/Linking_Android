@@ -62,6 +62,9 @@ public interface APIInterface {
     @POST("link/{link_id}/readState")
     Call<ResponseBody> linkstate(@Path("link_id") int link_id);
 
+    @POST("link/{link_id}/unread")
+    Call<ResponseBody> linkunread(@Path("link_id") int link_id);
+
     @POST("link/{display_name}/favorite/call")
     Call<ArrayList<LinkListResponse>> linkfavorite(@Path("display_name") String display_name);
 
@@ -85,6 +88,9 @@ public interface APIInterface {
 
     @GET("search/{display_name}/{keyword}/all")
     Call<ArrayList<LinkListResponse>> searchall(@Path("display_name") String display_name, @Path("keyword") String keyword);
+
+    @GET("search/{display_name}/{keyword}/tag")
+    Call<ArrayList<LinkListResponse>> searchtag(@Path("display_name") String display_name, @Path("keyword") String keyword);
 
     @GET("directory/toggle")
     Call<ArrayList<DirectoryResponse>> toggle();
@@ -112,5 +118,8 @@ public interface APIInterface {
 
     @GET("directory/{display_name}")
     Call<OtherUserResponse> otheruser(@Path("display_name") String display_name);
+
+    @POST("link/{display_name}/{link_id}/favorite")
+    Call<ResponseBody>  linkfavoritestatus(@Path("display_name") String display_name, @Path("link_id") int link_id);
 
 }
