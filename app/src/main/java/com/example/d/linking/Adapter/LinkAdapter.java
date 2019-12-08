@@ -179,12 +179,12 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             @Override
             public void onClick(View v) {
                 if(read[position] == 1){
-                    readStatus(link_id[position]);
+                    readchange(link_id[position]);
                     myViewHolder.read_status.setImageResource(R.drawable.read_0);
                     myViewHolder.btn_read.setImageResource(R.drawable.read);
                     read[position] = 0;
                 }else{
-                    unread(link_id[position]);
+                    readchange(link_id[position]);
                     myViewHolder.read_status.setImageResource(R.drawable.read_1);
                     myViewHolder.btn_read.setImageResource(R.drawable.unread);
                     read[position] = 1;
@@ -260,8 +260,8 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         });
     }
 
-    public void unread(int linkID){
-        service.linkunread(linkID).enqueue(new Callback<ResponseBody>() {
+    public void readchange(int linkID){
+        service.linkreadchange(linkID).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("링크 상태 변경 결과",""+new Gson().toJson(response.code()));

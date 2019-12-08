@@ -64,8 +64,8 @@ public interface APIInterface {
     @POST("link/{link_id}/readState")
     Call<ResponseBody> linkstate(@Path("link_id") int link_id);
 
-    @POST("link/{link_id}/unread")
-    Call<ResponseBody> linkunread(@Path("link_id") int link_id);
+    @POST("link/{link_id}/readchange")
+    Call<ResponseBody> linkreadchange(@Path("link_id") int link_id);
 
     @POST("link/{display_name}/favorite/call")
     Call<ArrayList<LinkListResponse>> linkfavorite(@Path("display_name") String display_name);
