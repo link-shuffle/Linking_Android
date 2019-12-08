@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.d.linking.Adapter.DirListAdapter;
+import com.example.d.linking.Adapter.SharedListAdapter;
 import com.example.d.linking.Data.BadgeResponse;
 import com.example.d.linking.Data.DirectoryResponse;
 import com.example.d.linking.R;
@@ -265,7 +266,7 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
             @Override
             public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
-                DirListAdapter dir_Adapter = new DirListAdapter(response.body());
+                SharedListAdapter dir_Adapter = new SharedListAdapter(response.body());
                 mRecyclerView3.setAdapter(dir_Adapter);
             }
             @Override

@@ -1,16 +1,12 @@
 package com.example.d.linking.Adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +38,7 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 
 
-public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class SharedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     int[] array = new int[1000];
     int[] array_auth = new int[1000];
     int[] array_arrow = new int[1000];
@@ -81,7 +77,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private ArrayList<DirectoryResponse> dirList;
-        public DirListAdapter(ArrayList<DirectoryResponse> dirList){
+        public SharedListAdapter(ArrayList<DirectoryResponse> dirList){
             this.dirList = dirList;
     }
 
@@ -102,6 +98,9 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         array[position] = dirList.get(position).getDir_id(); //directory id
         array_auth[position] = dirList.get(position).getDir_type(); //dir_type
         recycles.add(myViewHolder.mRecyclerView);
+
+        myViewHolder.dir_share.setVisibility(View.INVISIBLE);
+        myViewHolder.dir_option.setVisibility(View.INVISIBLE);
 
         myViewHolder.dir_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,71 +134,6 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
 
-        myViewHolder.dir_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), Search_user.class);
-                intent.putExtra("dir_id",array[position]);
-                mContext.startActivity(intent);
-            }
-        });
-
-        //하위 디렉토리 불러오기.
-        myViewHolder.dir_option.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
-                popupMenu.getMenuInflater().inflate(R.menu.dir_menu, popupMenu.getMenu());
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()){
-                            //directory 삭제
-                            case R.id.delete:
-                                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(mContext);
-                                alert_confirm.setMessage("디렉토리를 삭제하시겠습니까?").setCancelable(false).setPositiveButton("삭제",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                Dirdelete(array[position]);
-                                                Intent intent = new Intent(v.getContext(),Workspace.class);
-                                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                                mContext.startActivity(intent);
-                                            }
-                                        }).setNegativeButton("취소",
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                return;
-                                            }
-                                        });
-                                AlertDialog alert = alert_confirm.create();
-                                alert.show();
-                                break;
-
-                                //디렉토리 수정
-                            case R.id.edit:
-                                Intent intent = new Intent(v.getContext(), Directory_Rename.class);
-                                intent.putExtra("dirID",array[position]);
-                                intent.putExtra("dirName","");
-                                mContext.startActivity(intent);
-                                break;
-
-                            case R.id.add:
-                                Intent intent2 = new Intent(v.getContext(), DirSave_Popup.class);
-                                intent2.putExtra("dirID",array[position]);
-                                mContext.startActivity(intent2);
-                                break;
-                            default:
-                                break;
-                        }
-                        return false;
-                    }
-                });
-                popupMenu.show();
-            }
-        });
-
     }
 
     //navigation item dynamic2
@@ -210,7 +144,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                     Log.d("통신성공", " " + new Gson().toJson(response.body()));
                     if(response.body() != null) {
-                        DirListAdapter dir_Adapter = new DirListAdapter(response.body());
+                        SharedListAdapter dir_Adapter = new SharedListAdapter(response.body());
                         recycles.get(position).setAdapter(dir_Adapter);
                     }
                 }
@@ -248,7 +182,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 @Override
                 public void onResponse(Call<ArrayList<DirectoryResponse>> call, Response<ArrayList<DirectoryResponse>> response) {
                     Log.d("빈배열","toggle");
-                    DirListAdapter dir_Adapter = new DirListAdapter(response.body());
+                    SharedListAdapter dir_Adapter = new SharedListAdapter(response.body());
                     recycles.get(position).setAdapter(dir_Adapter);
                 }
                 @Override

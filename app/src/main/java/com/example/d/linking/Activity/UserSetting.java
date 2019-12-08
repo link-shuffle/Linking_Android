@@ -37,7 +37,7 @@ public class UserSetting extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private APIInterface service;
     String display_name;
-    Button btn_userdelete;
+    Button btn_userdelete, btn_setting;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,15 @@ public class UserSetting extends AppCompatActivity {
                     public void onFailure(Call<ResponseBody> call, Throwable t) {
                     }
                 });
+            }
+        });
+
+        btn_setting = (Button) findViewById(R.id.btn_setting);
+        btn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserSetting.this, User_Rename.class);
+                startActivity(intent);
             }
         });
 

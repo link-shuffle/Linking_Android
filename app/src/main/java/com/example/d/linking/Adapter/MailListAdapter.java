@@ -122,9 +122,6 @@ public class MailListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void remove(int swipedPosition) {
-        mailList.remove(swipedPosition);
-        notifyItemRemoved(swipedPosition);
-
         service.maildelete(mailList.get(swipedPosition).getMail_id()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -135,6 +132,8 @@ public class MailListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
         });
 
+        mailList.remove(swipedPosition);
+        notifyItemRemoved(swipedPosition);
     }
 
 }

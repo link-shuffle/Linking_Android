@@ -203,6 +203,7 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                     favorite[position] = 1;
                 }else{
                     if(dir_id == 1){
+                        favorite(display_name, link_id[position]);
                         linkList.remove(position);
                         notifyItemRemoved(position);
                     }else{

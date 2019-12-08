@@ -121,9 +121,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                 Toast.makeText(MainActivity.this, "환영합니다 "+display_name +"님", Toast.LENGTH_SHORT).show();
                 //SharedPreferences user 정보 저장
                 preferences = getSharedPreferences("user", MODE_PRIVATE);
-                editor = preferences.edit();
-                editor.putString("display_name",display_name);
-                editor.commit();
                 Intent intent1 = new Intent(getApplicationContext(), Workspace.class);
                 startActivity(intent1);
                 finish();

@@ -1,5 +1,7 @@
 package com.example.d.linking.Server;
 
+
+import com.example.d.linking.Data.UserData;
 import com.example.d.linking.Data.BadgeResponse;
 import com.example.d.linking.Data.DirAddData;
 import com.example.d.linking.Data.FollowerResponse;
@@ -121,5 +123,8 @@ public interface APIInterface {
 
     @POST("link/{display_name}/{link_id}/favorite")
     Call<ResponseBody>  linkfavoritestatus(@Path("display_name") String display_name, @Path("link_id") int link_id);
+
+    @POST("user/{display_name}/update")
+    Call<ResponseBody> userUpdate(@Path("display_name") String display_name,@Body UserData data);
 
 }

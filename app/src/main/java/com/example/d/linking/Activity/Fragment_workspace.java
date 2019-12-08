@@ -42,6 +42,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     private int dir_id, dir_type;
     private ImageButton btn_auth;
     private String dir_name;
@@ -88,6 +89,9 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dirAuth(dir_id, dir_name);
+                                    editor = preferences.edit();
+                                    editor.putInt("dir_type",1);
+                                    editor.commit();
                                     Intent intent = new Intent(v.getContext(),Workspace.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     mContext.startActivity(intent);
@@ -107,6 +111,9 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dirAuth(dir_id, dir_name);
+                                    editor = preferences.edit();
+                                    editor.putInt("dir_type",0);
+                                    editor.commit();
                                     Intent intent = new Intent(v.getContext(),Workspace.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     mContext.startActivity(intent);
@@ -144,6 +151,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         }else{
             favorite(display_name);
         }
+
         //swipe background custom
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
 
@@ -224,8 +232,8 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
-
     }
+
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
