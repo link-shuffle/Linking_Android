@@ -78,6 +78,7 @@ public class UserSetting extends AppCompatActivity {
                                         editor.putInt("dir_id",0);
                                         editor.putString("dir_name","");
                                         editor.putInt("shared_id", 0);
+                                        editor.putString("URL","");
                                         editor.commit();
                                         startActivity(intent);
                                     }
@@ -132,6 +133,7 @@ public class UserSetting extends AppCompatActivity {
                         editor.putInt("dir_id",0);
                         editor.putString("dir_name","");
                         editor.putInt("shared_id", 0);
+                        editor.putString("URL","");
                         editor.commit();
                         startActivity(intent);
                         finish();

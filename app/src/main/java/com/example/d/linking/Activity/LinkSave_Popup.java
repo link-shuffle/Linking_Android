@@ -48,17 +48,6 @@ public class LinkSave_Popup extends Activity{
         mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         pasteData = "";
 
-        //배경 제거
-        WindowManager.LayoutParams  layoutParams = new WindowManager.LayoutParams();
-        layoutParams.flags  = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-        layoutParams.dimAmount  = 0.8f;
-        getWindow().setAttributes(layoutParams);
-
-        //dialog size 설정
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        getWindow().getAttributes().width = (int) (dm.widthPixels * 0.9);
-        getWindow().getAttributes().height = (int) (dm.heightPixels * 0.5);
-
         btn_discard = findViewById(R.id.btn_discard);
         btn_discard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +78,7 @@ public class LinkSave_Popup extends Activity{
 
     // linkadd
     private void linkAdd(LinkAddData data) {
-        service.linkadd(200,"",data).enqueue(new Callback<LinkAddResponse>() {
+        service.linkadd(0,"",data).enqueue(new Callback<LinkAddResponse>() {
             @Override
             public void onResponse(Call<LinkAddResponse> call, Response<LinkAddResponse> response) {
                 //User_workspace result = new User_workspace();
