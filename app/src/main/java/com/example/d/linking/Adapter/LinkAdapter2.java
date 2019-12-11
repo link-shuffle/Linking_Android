@@ -102,7 +102,7 @@ public class LinkAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         myViewHolder.desc.setText(linkList.get(position).getDesc());
 
         ArrayList<String> tag = new ArrayList<String>(linkList.get(position).getLink_tag());
-        TagListAdapter adapter = new TagListAdapter(tag);
+        TagListAdapter2 adapter = new TagListAdapter2(tag);
         myViewHolder.mRecyclerView.setAdapter(adapter);
 
         link_id[position] = linkList.get(position).getLink_id();

@@ -34,7 +34,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,GoogleApiClient.OnConnectionFailedListener {
-
     private static final int RC_SIGN_IN = 9001;
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
@@ -105,6 +104,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if(account != null) {
             this.account = account.getDisplayName();
+            Log.d("ddddd",""+account.getDisplayName());
             startLogin(new LoginData(account.getEmail(),account.getDisplayName()));
         }else {
             Toast.makeText(getApplicationContext(), "email does not exist.", Toast.LENGTH_LONG).show();
@@ -118,9 +118,12 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 Log.d("받아온결과",""+new Gson().toJson(response.body()));
                 String display_name = response.body().getDisplay_name();
-                Toast.makeText(MainActivity.this, "환영합니다 "+display_name +"님", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "환영합니다 "+ display_name +"님", Toast.LENGTH_SHORT).show();
                 //SharedPreferences user 정보 저장
                 preferences = getSharedPreferences("user", MODE_PRIVATE);
+                editor = preferences.edit();
+                editor.putString("display_name",display_name);
+                editor.commit();
                 Intent intent1 = new Intent(getApplicationContext(), Workspace.class);
                 startActivity(intent1);
                 finish();

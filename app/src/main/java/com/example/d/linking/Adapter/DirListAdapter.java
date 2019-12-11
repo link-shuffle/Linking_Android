@@ -241,7 +241,9 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public int getItemCount() { return dirList.size(); }
+    public int getItemCount() {
+        return dirList.size();
+    }
 
     public void toggle(int position) {
             service.toggle().enqueue(new Callback<ArrayList<DirectoryResponse>>() {

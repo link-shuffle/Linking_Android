@@ -78,9 +78,10 @@ public class UserSetting extends AppCompatActivity {
                                         editor.putInt("dir_id",0);
                                         editor.putString("dir_name","");
                                         editor.putInt("shared_id", 0);
-                                        editor.putString("URL","");
+                                        editor.putBoolean("URL_boolean",true);
                                         editor.commit();
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }).setNegativeButton("취소",
                                 new DialogInterface.OnClickListener() {
@@ -128,12 +129,13 @@ public class UserSetting extends AppCompatActivity {
                         Toast logoutToast = Toast.makeText(getApplicationContext(), "로그아웃이 완료되었습니다.", Toast.LENGTH_SHORT);
                         logoutToast.show();
                         Intent intent = new Intent(UserSetting.this, MainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         editor = preferences.edit();
                         editor.putString("display_name","");
                         editor.putInt("dir_id",0);
                         editor.putString("dir_name","");
                         editor.putInt("shared_id", 0);
-                        editor.putString("URL","");
+                        editor.putBoolean("URL_boolean",true);
                         editor.commit();
                         startActivity(intent);
                         finish();

@@ -80,7 +80,7 @@ public class MailListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         myViewHolder.mail_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mail(display_name, mailList.get(position).getSender(), 1, new MailData(mailList.get(position).getMail_id(),0));
+                mail(display_name, mailList.get(position).getSender(), 1, new MailData(mailList.get(position).getMail_id(), mailList.get(position).getDir_id()));
                 mailList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position,mailList.size());
@@ -90,7 +90,7 @@ public class MailListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         myViewHolder.mail_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mail(display_name, mailList.get(position).getSender(), 2, new MailData(mailList.get(position).getMail_id(),0));
+                mail(display_name, mailList.get(position).getSender(), 2, new MailData(mailList.get(position).getMail_id(),mailList.get(position).getDir_id()));
                 mailList.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position,mailList.size());

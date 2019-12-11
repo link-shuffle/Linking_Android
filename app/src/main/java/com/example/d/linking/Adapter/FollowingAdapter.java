@@ -134,8 +134,7 @@ public class FollowingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("팔로잉 삭제 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(mContext, "Delete completed", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(mContext, "팔로잉 삭제되었습니다.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {

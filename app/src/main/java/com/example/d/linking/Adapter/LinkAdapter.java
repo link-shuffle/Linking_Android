@@ -241,7 +241,6 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             public void onFailure(Call<ResponseBody> call, Throwable t) {
             }
         });
-
         linkList.remove(swipedPosition);
         notifyItemRemoved(swipedPosition);
 

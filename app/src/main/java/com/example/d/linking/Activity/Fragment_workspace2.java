@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class Fragment_workspace2 extends Fragment{
     private int dir_id;
     private String dir_name;
     private String display_name;
+    private ProgressBar loadingPanel;
     private Context mContext;
     private TextView text_dirID;
     private RecyclerView mRecyclerView;
@@ -71,6 +73,8 @@ public class Fragment_workspace2 extends Fragment{
 
         text_dirID = (TextView) view.findViewById(R.id.directory_name);
         text_dirID.setText(dir_name);
+
+        loadingPanel = (ProgressBar) view.findViewById(R.id.loadingPanel);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recylcer_linkcard);
         mRecyclerView.setHasFixedSize(true);
@@ -98,6 +102,7 @@ public class Fragment_workspace2 extends Fragment{
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
                 LinkAdapter2 adapter = new LinkAdapter2(response.body());
                 mRecyclerView.setAdapter(adapter);
+                loadingPanel.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {

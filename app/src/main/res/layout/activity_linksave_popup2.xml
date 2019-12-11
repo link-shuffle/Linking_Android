@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:background="#4D000000">
 
@@ -58,7 +59,7 @@
         <EditText
             android:textSize="14sp"
             android:id="@+id/edit_url2"
-            android:hint="Link_url"
+            android:hint="링크 URL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -71,7 +72,7 @@
         <EditText
             android:textSize="14sp"
             android:layout_weight="1"
-            android:hint="LINK_TAG"
+            android:hint="링크 태그"
             android:id="@+id/edit_tag2"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
@@ -100,7 +101,7 @@
 
         <EditText
             android:textSize="14sp"
-            android:hint="LINK_DESCRIPTION"
+            android:hint="링크 설명"
             android:id="@+id/edit_des2"
             android:layout_marginTop="10dp"
             android:height="100dp"

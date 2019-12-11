@@ -19,6 +19,9 @@ public class MailListResponse {
     @SerializedName("mail_id")
     private int mail_id;
 
+    @SerializedName("dir_id")
+    private int dir_id;
+
     public String getSender() {
         return sender;
     }
@@ -32,4 +35,6 @@ public class MailListResponse {
     public int getStatus() {return status;}
 
     public int getMail_id() {return mail_id;}
+
+    public int getDir_id() { return dir_id; }
 }

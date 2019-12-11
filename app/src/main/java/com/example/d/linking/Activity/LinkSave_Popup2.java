@@ -7,12 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.URLUtil;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.d.linking.Data.LinkAddData;
@@ -31,22 +27,20 @@ import com.example.d.linking.Server.APIInterface;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.security.auth.Destroyable;
-
-import androidx.fragment.app.Fragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LinkSave_Popup2 extends Activity {
     private SharedPreferences preferences;
+    private SharedPreferences.Editor editor;
     Button btn_discard2, btn_save2;
-    ImageButton btn_add, btn_delete;
+    ImageButton btn_add;
     EditText tag2, desc2, edit_url2;
     ListView list_tag;
     String display_name;
+    private ClipboardManager mClipboard;
     int dir_id;
     private APIInterface service;
     private ArrayList<String> items;
@@ -71,6 +65,7 @@ public class LinkSave_Popup2 extends Activity {
         edit_url2 = (EditText) findViewById(R.id.edit_url2);
         btn_add = (ImageButton) findViewById(R.id.btn_add);
         list_tag = (ListView) findViewById(R.id.list_tag);
+        mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
         service= APIClient.getClient().create(APIInterface.class);
 
@@ -89,10 +84,15 @@ public class LinkSave_Popup2 extends Activity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str = tag2.getText().toString();
-                items.add(str);
-                adapter.notifyDataSetChanged();
-                tag2.setText("");
+                if(list_tag.getCount() >= 6){
+                    Toast.makeText(LinkSave_Popup2.this, "최대 5개의 태그가 입력 가능합니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String str = tag2.getText().toString();
+                    items.add(str);
+                    adapter.notifyDataSetChanged();
+                    tag2.setText("");
+                }
             }
         });
 
@@ -129,6 +129,20 @@ public class LinkSave_Popup2 extends Activity {
                     Toast.makeText(LinkSave_Popup2.this, "링크 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                     Log.d("링크 저장 결과",""+new Gson().toJson(response.code()));
                     Intent intent = new Intent(LinkSave_Popup2.this, Workspace.class);
+
+                //클립보드 가져오기.
+                try {
+                    ClipData.Item item = mClipboard.getPrimaryClip().getItemAt(0);
+                    String pasteData = item.getText().toString();
+                    String text = edit_url2.getText().toString();
+                    if(pasteData.equals(text)){
+                        editor = preferences.edit();
+                        editor.putString("URL",text);
+                        editor.commit();
+                    }
+                } catch (NullPointerException e) {
+
+                }
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();

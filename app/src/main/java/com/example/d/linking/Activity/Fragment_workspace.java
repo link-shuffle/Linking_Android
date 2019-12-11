@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,13 +48,13 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     private ImageButton btn_auth;
     private String dir_name;
     private String display_name;
+    private ProgressBar loadingPanel;
     private Context mContext;
     private TextView text_dirID;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
     SwipeRefreshLayout mSwipeRefreshLayout;
-    private Paint mClearPaint;
 
     @Nullable
     @Override
@@ -66,6 +67,8 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         dir_name = preferences.getString("dir_name","");
         display_name = preferences.getString("display_name","");
         dir_type = preferences.getInt("dir_type",0);
+
+        loadingPanel = (ProgressBar) view.findViewById(R.id.loadingPanel);
 
         text_dirID = (TextView) view.findViewById(R.id.directory_name);
         text_dirID.setText(dir_name);
@@ -190,6 +193,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
                 LinkAdapter dir_Adapter = new LinkAdapter(response.body());
                 mRecyclerView.setAdapter(dir_Adapter);
+                loadingPanel.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {
@@ -208,6 +212,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
                 Log.d("통신성공"," "+new Gson().toJson(response.body()));
                 LinkAdapter dir_Adapter = new LinkAdapter(response.body());
                 mRecyclerView.setAdapter(dir_Adapter);
+                loadingPanel.setVisibility(View.INVISIBLE);
             }
             @Override
             public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {

@@ -54,7 +54,15 @@
         android:layout_margin="20dp"
         style="@style/GenericProgressIndicator"/>
 
+        <TextView
+            android:id="@+id/search_result"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_below="@id/search_result"
         android:overScrollMode="never"
         android:id="@+id/recylcer_search"
         android:layout_width="match_parent"

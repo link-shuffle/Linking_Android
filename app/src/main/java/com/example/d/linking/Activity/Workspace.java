@@ -1,6 +1,9 @@
 package com.example.d.linking.Activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -45,6 +49,7 @@ import retrofit2.Response;
 public class Workspace extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences preferences;
     private SharedPreferences.Editor editor;
+    private ClipboardManager mClipboard;
     Fragment workspace;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
@@ -73,11 +78,28 @@ public class Workspace extends AppCompatActivity implements NavigationView.OnNav
         getSupportFragmentManager().beginTransaction().add(R.id.container, workspace).commit();
 
         //server connection
-        service= APIClient.getClient().create(APIInterface.class);
+        service = APIClient.getClient().create(APIInterface.class);
+        mClipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 
         initLayout();
 
         directoryList(display_name);
+
+        try{
+            ClipData.Item item = mClipboard.getPrimaryClip().getItemAt(0);
+            String clipdata = item.getText().toString();
+            //클립보드
+            if(!clipdata.equals(preferences.getString("URL", "")) && URLUtil.isValidUrl(clipdata)){
+                Intent intent = new Intent(Workspace.this, LinkSave_DirPopup.class);
+                intent.putExtra("URL",clipdata);
+                editor = preferences.edit();
+                editor.putString("URL",clipdata);
+                editor.commit();
+                startActivity(intent);
+            }
+        }catch (NullPointerException e){
+
+        }
     }
 
     @Override

@@ -29,6 +29,9 @@
             android:name=".Activity.LinkSave_Popup"
             android:theme="@style/popup" />
         <activity
+            android:name=".Activity.LinkSave_DirPopup"
+            android:theme="@style/popup" />
+        <activity
             android:name=".Activity.LinkSave_Popup2"
             android:theme="@style/popup"/>
         <activity

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:background="#4D000000">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/roundedtest"
+        android:padding="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_discard2"
+                android:textColor="#D5D5D5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00ff0000"
+                android:layout_margin="10dp"
+                android:text="취소" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:text="링크 추가"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_save2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00ff0000"
+                android:layout_margin="10dp" />
+        </LinearLayout>
+
+        <TextView
+            android:textSize="10sp"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="링크를 저장할 디렉토리를 설정해주세요."
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_marginLeft="@dimen/activity_vertical_margin"
+                        android:text="Private"
+                        android:textStyle="bold"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="never"
+                    android:id="@+id/nav_recyclerPrivate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_marginTop="5dp"
+                    android:background="#d5d5d5d5"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_height="2px" />
+
+                <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:text="Shard"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="never"
+                    android:id="@+id/nav_recyclerShared"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+                <View
+                    android:layout_marginTop="5dp"
+                    android:background="#d5d5d5d5"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_height="2px" />
+                <TextView
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"
+                    android:text="Public"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:overScrollMode="never"
+                    android:id="@+id/nav_recyclerPublic"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -2,80 +2,111 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:background="#F3F3F3"
-    android:padding="10dp">
+    android:gravity="center_horizontal"
+    android:background="#4D000000">
 
     <LinearLayout
-        android:id="@+id/layout1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_discard"
-            android:textColor="#D5D5D5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00ff0000"
-            android:layout_margin="10dp"
-            android:text="Discard" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="1dp"
-            android:layout_weight="1.0"
-            android:gravity="center_horizontal"
-            android:text="New Link"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/btn_save"
-            android:textColor="#0091FF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00ff0000"
-            android:layout_margin="10dp"
-            android:text="Save" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="10dp">
+        android:layout_gravity="center"
+        android:background="@drawable/roundedtest"
+        android:padding="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/text_url"
-            android:text="Link_url"
+        <LinearLayout
+            android:id="@+id/layout2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/spin_dir"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btn_discard2"
+                android:textColor="#D5D5D5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00ff0000"
+                android:layout_margin="10dp"
+                android:text="취소" />
 
-        <EditText
-            android:hint="LINK_TAG"
-            android:id="@+id/edit_tag"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="1dp"
+                android:layout_weight="1.0"
+                android:gravity="center_horizontal"
+                android:text="링크 추가"
+                android:textSize="15sp"
+                android:textStyle="bold" />
 
-        <EditText
-            android:hint="LINK_DESCRIPTION"
-            android:id="@+id/edit_des"
-            android:layout_marginTop="10dp"
-            android:height="100dp"
-            android:inputType="textMultiLine|textNoSuggestions"
+            <Button
+                android:id="@+id/btn_save2"
+                android:textColor="#0091FF"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00ff0000"
+                android:layout_margin="10dp"
+                android:text="저장" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:textSize="12sp"
+                android:id="@+id/text_url"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:hint="링크 태그"
+                    android:id="@+id/edit_tag"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <ImageButton
+                    android:id="@+id/btn_add2"
+                    android:scaleType="fitXY"
+                    android:padding="10dp"
+                    android:src="@drawable/plus"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/transparent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+
+            <ListView
+                android:dividerHeight="0px"
+                android:divider="#ffffff"
+                android:id="@+id/list_tag2"
+                android:focusable="false"
+                android:clickable="false"
+                android:focusableInTouchMode="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <EditText
+                android:textSize="14sp"
+                android:hint="링크 설명"
+                android:id="@+id/edit_des"
+                android:layout_marginTop="10dp"
+                android:height="100dp"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

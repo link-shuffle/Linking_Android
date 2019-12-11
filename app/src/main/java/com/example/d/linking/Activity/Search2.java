@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.d.linking.Adapter.LinkAdapter;
 import com.example.d.linking.Adapter.SearchUserAdapter;
@@ -44,6 +45,7 @@ public class Search2 extends AppCompatActivity {
     private EditText bar_search;
     private ProgressBar loadingPanel;
     private RecyclerView mRecyclerView;
+    private TextView search_result;
     private RecyclerView.LayoutManager mLayoutManager;
     private APIInterface service;
     private int position, currentPosition;
@@ -70,11 +72,13 @@ public class Search2 extends AppCompatActivity {
         });
 
         mTabLayout = (TabLayout) findViewById(R.id.layout_tab2);
-        mTabLayout.addTab(mTabLayout.newTab().setText("전체"));
+        mTabLayout.addTab(mTabLayout.newTab().setText("링크"));
         mTabLayout.addTab(mTabLayout.newTab().setText("사용자"));
         mTabLayout.addTab(mTabLayout.newTab().setText("태그"));
         mTabLayout.getTabAt(2).select();
         currentPosition = 0;
+
+        search_result = (TextView) findViewById(R.id.search_result);
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -171,6 +175,7 @@ public class Search2 extends AppCompatActivity {
     }
 
     public void searchUser(String display_name, String keyword){
+        search_result.setText("");
         loadingPanel.setVisibility(View.VISIBLE);
         Call<ArrayList<SearchUserResponse>> user = service.searchuser(display_name,keyword);
 
@@ -182,6 +187,7 @@ public class Search2 extends AppCompatActivity {
                 mRecyclerView.invalidate();
                 mRecyclerView.setAdapter(adapter);
                 loadingPanel.setVisibility(View.GONE);
+                search_result.setText("총 "+response.body().size()+"명의 사용자가 검색되었습니다.");
             }
             @Override
             public void onFailure(Call<ArrayList<SearchUserResponse>> call, Throwable t) {
@@ -192,6 +198,7 @@ public class Search2 extends AppCompatActivity {
     }
 
     public void searchAll(String display_name, String keyword){
+        search_result.setText("");
         loadingPanel.setVisibility(View.VISIBLE);
         Call<ArrayList<LinkListResponse>> all = service.searchall(display_name,keyword);
 
@@ -203,6 +210,7 @@ public class Search2 extends AppCompatActivity {
                 mRecyclerView.invalidate();
                 mRecyclerView.setAdapter(adapter);
                 loadingPanel.setVisibility(View.GONE);
+                search_result.setText("총 "+response.body().size()+"개의 링크가 검색되었습니다.");
             }
             @Override
             public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {
@@ -213,6 +221,7 @@ public class Search2 extends AppCompatActivity {
     }
 
     public void searchTag(String display_name, String keyword){
+        search_result.setText("");
         loadingPanel.setVisibility(View.VISIBLE);
         Call<ArrayList<LinkListResponse>> tag = service.searchtag(display_name,keyword);
 
@@ -224,6 +233,7 @@ public class Search2 extends AppCompatActivity {
                 mRecyclerView.invalidate();
                 mRecyclerView.setAdapter(adapter);
                 loadingPanel.setVisibility(View.GONE);
+                search_result.setText("총 "+response.body().size()+"개의 링크가 검색되었습니다.");
             }
             @Override
             public void onFailure(Call<ArrayList<LinkListResponse>> call, Throwable t) {
@@ -232,8 +242,8 @@ public class Search2 extends AppCompatActivity {
             }
         });
     }
-
     public void toggle(){
+        search_result.setText("");
         service.toggleuser().enqueue(new Callback<ArrayList<SearchUserResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<SearchUserResponse>> call, Response<ArrayList<SearchUserResponse>> response) {
@@ -241,6 +251,7 @@ public class Search2 extends AppCompatActivity {
                 SearchUserAdapter adapter = new SearchUserAdapter(response.body());
                 mRecyclerView.setAdapter(adapter);
                 loadingPanel.setVisibility(View.GONE);
+                search_result.setText("총 0개가 검색되었습니다.");
             }
             @Override
             public void onFailure(Call<ArrayList<SearchUserResponse>> call, Throwable t) {

@@ -3,7 +3,6 @@ package com.example.d.linking.Data;
 import com.google.gson.annotations.SerializedName;
 
 public class MailData {
-
     @SerializedName("mail_id")
     int mail_id;
 
