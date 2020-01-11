@@ -2,6 +2,7 @@ package com.example.d.linking.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,10 @@ import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private SharedPreferences preferences;
     Context mContext;
 
     private ArrayList<String> tag;
@@ -26,12 +30,15 @@ public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        private Boolean shared;
         Button btn_tag;
 
         public MyViewHolder(View view){
             super(view);
             mContext = view.getContext();
+            preferences = mContext.getSharedPreferences("user", MODE_PRIVATE);
             btn_tag = (Button) view.findViewById(R.id.btn_tag);
+            shared = preferences.getBoolean("shared",false);
         }
     }
 
@@ -53,9 +60,11 @@ public class TagListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         myViewHolder.btn_tag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), Search2.class);
-                intent.putExtra("tag", tag.get(position));
-                mContext.startActivity(intent);
+                if(!myViewHolder.shared) {
+                    Intent intent = new Intent(v.getContext(), Search2.class);
+                    intent.putExtra("tag", tag.get(position));
+                    mContext.startActivity(intent);
+                }
             }
         });
     }

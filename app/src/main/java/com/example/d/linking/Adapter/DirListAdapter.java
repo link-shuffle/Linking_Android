@@ -110,6 +110,7 @@ public class DirListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 editor.putInt("dir_id", array[position]);
                 editor.putString("dir_name",dirList.get(position).getName());
                 editor.putInt("dir_type", array_auth[position]);
+                editor.putBoolean("shared",false);
                 editor.commit();
                 Intent intent = new Intent(v.getContext(),Workspace.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

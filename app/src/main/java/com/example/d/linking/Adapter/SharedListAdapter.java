@@ -109,6 +109,7 @@ public class SharedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 editor.putInt("dir_id", array[position]);
                 editor.putString("dir_name",dirList.get(position).getName());
                 editor.putInt("dir_type", array_auth[position]);
+                editor.putBoolean("shared",true);
                 editor.commit();
                 Intent intent = new Intent(v.getContext(),Workspace.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -159,19 +160,6 @@ public class SharedListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }catch (NullPointerException e){
             return;
         }
-    }
-
-    public void Dirdelete(int dir_id){
-        service.dirdelete(display_name,dir_id).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("디렉토 삭제 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(mContext, "디렉토리 삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-            }
-        });
     }
 
     @Override

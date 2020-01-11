@@ -15,7 +15,7 @@
         android:paddingLeft="30dp"
         android:gravity="left|center_vertical"
         android:background="@android:color/transparent"/>
-
+<!--
     <Button
         android:id="@+id/btn_setting"
         android:text="닉네임 수정하기"
@@ -26,6 +26,8 @@
         android:paddingLeft="30dp"
         android:gravity="left|center_vertical"
         android:background="@android:color/transparent"/>
+
+        -->
 
     <Button
         android:id="@+id/btn_userdelete"

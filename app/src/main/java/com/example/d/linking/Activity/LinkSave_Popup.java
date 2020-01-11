@@ -107,7 +107,7 @@ public class LinkSave_Popup extends Activity{
         btn_add2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(list_tag.getCount() >= 6) {
+                if(list_tag.getCount() > 4) {
                     Toast.makeText(LinkSave_Popup.this, "최대 5개의 태그가 입력 가능합니다.", Toast.LENGTH_SHORT).show();
                 }else {
                     String str = tag.getText().toString();

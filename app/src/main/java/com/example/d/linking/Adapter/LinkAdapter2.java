@@ -88,7 +88,7 @@ public class LinkAdapter2 extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_link, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_link2, parent, false);
         return new MyViewHolder(v);
     }
 

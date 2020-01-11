@@ -61,6 +61,7 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
         ImageView meta_imgUrl, img_favorite, link_edit, btn_read, btn_favorite, btn_delete;
         LinearLayout link_click;
         SwipeLayout item;
+        private Boolean shared;
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
 
@@ -71,6 +72,7 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             preferences = mContext.getSharedPreferences("user", MODE_PRIVATE);
             dir_id = preferences.getInt("dir_id",0);
             display_name = preferences.getString("display_name", "");
+            shared = preferences.getBoolean("shared",false);
 
             read_status = (CircleImageView) view.findViewById(R.id.read_status);
             meta_title = (TextView) view.findViewById(R.id.meta_title);
@@ -87,6 +89,10 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             btn_read = (ImageButton) item.findViewById(R.id.btn_read);
             btn_favorite = (ImageButton) item.findViewById(R.id.btn_favorite);
             btn_delete = (ImageButton) item.findViewById(R.id.btn_delete);
+
+            if(shared){
+                btn_favorite.setVisibility(View.GONE);
+            }
 
             item.setShowMode(SwipeLayout.ShowMode.PullOut);
             item.addDrag(SwipeLayout.DragEdge.Left, item.findViewById(R.id.bottom_wrapper_2));
@@ -251,7 +257,6 @@ public class LinkAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 Log.d("링크 상태 변경 결과",""+new Gson().toJson(response.code()));
-                Toast.makeText(mContext, "링크 상태가 변경되었습니다.", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {

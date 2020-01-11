@@ -76,10 +76,14 @@ public class Link_edit_popup extends Activity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str = link_editag.getText().toString();
-                items.add(str);
-                adapter.notifyDataSetChanged();
-                link_editag.setText("");
+                if(list_tag.getCount() > 4) {
+                    Toast.makeText(Link_edit_popup.this, "최대 5개의 태그가 입력 가능합니다.", Toast.LENGTH_SHORT).show();
+                }else {
+                    String str = link_editag.getText().toString();
+                    items.add(str);
+                    adapter.notifyDataSetChanged();
+                    link_editag.setText("");
+                }
             }
         });
 

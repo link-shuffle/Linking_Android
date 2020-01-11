@@ -46,6 +46,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
     private SharedPreferences.Editor editor;
     private int dir_id, dir_type;
     private ImageButton btn_auth;
+    private Boolean shared;
     private String dir_name;
     private String display_name;
     private ProgressBar loadingPanel;
@@ -67,6 +68,7 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         dir_name = preferences.getString("dir_name","");
         display_name = preferences.getString("display_name","");
         dir_type = preferences.getInt("dir_type",0);
+        shared = preferences.getBoolean("shared",false);
 
         loadingPanel = (ProgressBar) view.findViewById(R.id.loadingPanel);
 
@@ -79,6 +81,9 @@ public class Fragment_workspace extends Fragment implements SwipeRefreshLayout.O
         }else if(dir_type == 1){ //공개
             btn_auth.setImageResource(R.drawable.btn_public);
         }else{ //즐겨찾기
+            btn_auth.setVisibility(View.GONE);
+        }
+        if(shared){
             btn_auth.setVisibility(View.GONE);
         }
 
